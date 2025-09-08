@@ -616,3 +616,51 @@ a:focus, button:focus {
         background: white;
     }
 }
+
+/* Dynamic Content Loading Styles */
+.content-loading {
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.blog-posts, .popular-posts {
+    transition: opacity 0.3s ease;
+}
+
+/* Fresh content indicator */
+.fresh-content::before {
+    content: "🔥 ";
+    font-size: 0.8em;
+}
+
+/* API status indicator (for debugging) */
+.api-status {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background: #28a745;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.api-status.show {
+    opacity: 1;
+}
+
+.api-status.loading {
+    background: #ffc107;
+    color: #000;
+}
+
+.api-status.error {
+    background: #dc3545;
+}
+
+.api-status.success {
+    background: #28a745;
+}
