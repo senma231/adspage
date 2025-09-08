@@ -83,6 +83,20 @@
     <!-- API Status Indicator (for debugging) -->
     <div class="api-status" id="apiStatus">Loading content...</div>
     
+    <!-- Inline Debug Panel (hidden by default) -->
+    <div id="debugPanel" style="position: fixed; top: 50px; right: 10px; width: 300px; background: white; border: 1px solid #ccc; border-radius: 8px; padding: 15px; font-size: 12px; z-index: 1001; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <strong>🔍 Debug Panel</strong>
+            <button onclick="toggleDebugPanel()" style="border: none; background: none; font-size: 16px; cursor: pointer;">✕</button>
+        </div>
+        <button onclick="testSelectorsInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">检查选择器</button>
+        <button onclick="loadContentDebugInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">强制加载内容</button>
+        <div id="inlineDebugResults" style="margin-top: 10px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 10px;"></div>
+    </div>
+    
+    <!-- Debug Toggle Button -->
+    <button id="debugToggle" onclick="toggleDebugPanel()" style="position: fixed; top: 10px; left: 10px; padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 4px; font-size: 10px; z-index: 1002; cursor: pointer;">DEBUG</button>
+    
     <header>
         <nav class="navbar">
             <div class="nav-container">
@@ -373,6 +387,90 @@
                loadPopCash('https://cdn.popcash.net/show.js');
            }, 2000);
        })();
+    </script>
+    
+    <!-- Inline Debug Functions -->
+    <script>
+        function toggleDebugPanel() {
+            const panel = document.getElementById('debugPanel');
+            const isVisible = panel.style.display !== 'none';
+            panel.style.display = isVisible ? 'none' : 'block';
+        }
+        
+        function testSelectorsInline() {
+            const results = document.getElementById('inlineDebugResults');
+            const selectors = [
+                '#latest',
+                '#reviews', 
+                '#latest .blog-posts',
+                '#reviews .blog-posts',
+                '.popular-posts',
+                '.blog-post',
+                '.main-content'
+            ];
+            
+            let html = '<strong>选择器测试结果:</strong><br>';
+            selectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                const exists = elements.length > 0;
+                html += `${selector}: ${exists ? '✅' : '❌'} (${elements.length})<br>`;
+            });
+            
+            // 额外的DOM结构检查
+            const latest = document.getElementById('latest');
+            const reviews = document.getElementById('reviews');
+            
+            html += '<br><strong>DOM结构检查:</strong><br>';
+            html += `#latest 元素: ${latest ? '✅' : '❌'}<br>`;
+            if (latest) {
+                html += `- 子元素数量: ${latest.children.length}<br>`;
+                html += `- 类名: ${latest.className}<br>`;
+                const blogPosts = latest.querySelector('.blog-posts');
+                html += `- .blog-posts: ${blogPosts ? '✅' : '❌'}<br>`;
+            }
+            
+            html += `#reviews 元素: ${reviews ? '✅' : '❌'}<br>`;
+            if (reviews) {
+                html += `- 子元素数量: ${reviews.children.length}<br>`;
+                html += `- 类名: ${reviews.className}<br>`;
+                const blogPosts = reviews.querySelector('.blog-posts');
+                html += `- .blog-posts: ${blogPosts ? '✅' : '❌'}<br>`;
+            }
+            
+            results.innerHTML = html;
+        }
+        
+        async function loadContentDebugInline() {
+            const results = document.getElementById('inlineDebugResults');
+            results.innerHTML = '正在加载内容...<br>';
+            
+            if (window.techContentLoader) {
+                try {
+                    await window.techContentLoader.loadContent();
+                    results.innerHTML += '✅ 内容加载完成!<br>';
+                    
+                    // 再次检查内容是否真的更新了
+                    const latest = document.querySelector('#latest .blog-posts');
+                    const reviews = document.querySelector('#reviews .blog-posts');
+                    
+                    results.innerHTML += `Latest区域内容长度: ${latest ? latest.innerHTML.length : 0}<br>`;
+                    results.innerHTML += `Reviews区域内容长度: ${reviews ? reviews.innerHTML.length : 0}<br>`;
+                } catch (error) {
+                    results.innerHTML += '❌ 加载失败: ' + error.message + '<br>';
+                }
+            } else {
+                results.innerHTML += '❌ techContentLoader未找到<br>';
+            }
+        }
+        
+        // 页面完全加载后自动运行一次测试
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (document.getElementById('debugPanel').style.display !== 'none') {
+                    testSelectorsInline();
+                }
+            }, 3000);
+        });
     </script>
 </body>
 </html>
