@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级调试工具 - TechLife Blog</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .debug-container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .debug-section { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; border-left: 4px solid #007bff; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button { padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        .log { background: #212529; color: #28a745; padding: 15px; border-radius: 4px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto; }
+        .selector-check { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        .check-item { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔍 动态内容系统调试工具</h1>
+        
+        <div class="debug-section">
+            <h3>🎯 选择器检查</h3>
+            <button onclick="checkSelectors()">检查所有选择器</button>
+            <div id="selectorResults" class="selector-check"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>📡 API连接测试</h3>
+            <button onclick="testAPIsDetailed()">详细API测试</button>
+            <div id="apiResults"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🔄 内容加载测试</h3>
+            <button onclick="loadContentWithDebug()">调试模式加载内容</button>
+            <button onclick="clearConsoleLog()">清除日志</button>
+            <div id="consoleLog" class="log">等待调试信息...</div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>📊 系统状态</h3>
+            <div id="systemStatus">
+                <div class="info">系统启动中...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="content-loader.js"></script>
+    <script>
+        let debugLog = [];
+        
+        // 重写console.log来捕获所有日志
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        
+        console.log = function(...args) {
+            debugLog.push({ type: 'log', message: args.join(' '), time: new Date().toLocaleTimeString() });
+            updateConsoleDisplay();
+            originalConsoleLog.apply(console, args);
+        };
+        
+        console.error = function(...args) {
+            debugLog.push({ type: 'error', message: args.join(' '), time: new Date().toLocaleTimeString() });
+            updateConsoleDisplay();
+            originalConsoleError.apply(console, args);
+        };
+        
+        function updateConsoleDisplay() {
+            const logEl = document.getElementById('consoleLog');
+            logEl.innerHTML = debugLog.slice(-20).map(log => 
+                `<div style="color: ${log.type === 'error' ? '#dc3545' : '#28a745'}">[${log.time}] ${log.message}</div>`
+            ).join('');
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        function clearConsoleLog() {
+            debugLog = [];
+            updateConsoleDisplay();
+        }
+        
+        function checkSelectors() {
+            const selectors = [
+                '#latest .blog-posts',
+                '#reviews .blog-posts', 
+                '.popular-posts',
+                '#latest',
+                '#reviews',
+                '.section',
+                '.blog-post'
+            ];
+            
+            let html = '';
+            selectors.forEach(selector => {
+                const element = document.querySelector(selector);
+                const elements = document.querySelectorAll(selector);
+                const exists = !!element;
+                const count = elements.length;
+                
+                html += `
+                    <div class="check-item ${exists ? 'success' : 'error'}">
+                        <strong>${selector}</strong><br>
+                        存在: ${exists ? '✅' : '❌'}<br>
+                        数量: ${count}<br>
+                        ${element ? `标签: ${element.tagName}` : ''}
+                    </div>
+                `;
+            });
+            
+            document.getElementById('selectorResults').innerHTML = html;
+        }
+        
+        async function testAPIsDetailed() {
+            const results = document.getElementById('apiResults');
+            results.innerHTML = '<div class="info">正在测试API连接...</div>';
+            
+            const apis = [
+                {
+                    name: 'Dev.to API',
+                    url: 'https://dev.to/api/articles?tag=javascript&top=7',
+                    description: '获取JavaScript热门文章'
+                },
+                {
+                    name: 'GitHub Trending',
+                    url: 'https://api.github.com/search/repositories?q=language:javascript+stars:>100&sort=updated&per_page=3',
+                    description: '获取JavaScript热门仓库'
+                },
+                {
+                    name: 'RSS转JSON服务',
+                    url: 'https://api.rss2json.com/v1/api.json?rss_url=https://techcrunch.com/feed/',
+                    description: '获取TechCrunch RSS'
+                }
+            ];
+            
+            let html = '<h4>API测试结果:</h4>';
+            
+            for (const api of apis) {
+                try {
+                    const startTime = Date.now();
+                    const response = await fetch(api.url);
+                    const endTime = Date.now();
+                    const duration = endTime - startTime;
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        let itemCount = 0;
+                        if (Array.isArray(data)) itemCount = data.length;
+                        else if (data.items) itemCount = data.items.length;
+                        else if (data.total_count !== undefined) itemCount = data.total_count;
+                        
+                        html += `
+                            <div class="success">
+                                ✅ <strong>${api.name}</strong> (${duration}ms)<br>
+                                ${api.description}<br>
+                                数据项: ${itemCount}<br>
+                                状态: ${response.status} ${response.statusText}
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="error">
+                                ❌ <strong>${api.name}</strong><br>
+                                HTTP错误: ${response.status} ${response.statusText}<br>
+                                ${api.description}
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    html += `
+                        <div class="error">
+                            ❌ <strong>${api.name}</strong><br>
+                            网络错误: ${error.message}<br>
+                            ${api.description}
+                        </div>
+                    `;
+                }
+            }
+            
+            results.innerHTML = html;
+        }
+        
+        async function loadContentWithDebug() {
+            console.log('🔍 开始调试模式内容加载...');
+            
+            // 检查内容加载器是否存在
+            if (!window.techContentLoader) {
+                console.error('❌ techContentLoader未找到!');
+                return;
+            }
+            
+            console.log('✅ techContentLoader已加载');
+            
+            // 检查关键选择器
+            const latestSection = document.querySelector('#latest .blog-posts');
+            const reviewsSection = document.querySelector('#reviews .blog-posts');
+            const popularPosts = document.querySelector('.popular-posts');
+            
+            console.log('选择器检查结果:');
+            console.log('- #latest .blog-posts:', !!latestSection);
+            console.log('- #reviews .blog-posts:', !!reviewsSection); 
+            console.log('- .popular-posts:', !!popularPosts);
+            
+            if (!latestSection) {
+                console.error('❌ Latest section 选择器未找到!');
+                console.log('尝试查找备用选择器...');
+                const altLatest = document.querySelector('#latest');
+                console.log('- #latest 存在:', !!altLatest);
+                if (altLatest) {
+                    console.log('- #latest 内容:', altLatest.innerHTML.substring(0, 200));
+                }
+            }
+            
+            if (!reviewsSection) {
+                console.error('❌ Reviews section 选择器未找到!');
+                console.log('尝试查找备用选择器...');
+                const altReviews = document.querySelector('#reviews');
+                console.log('- #reviews 存在:', !!altReviews);
+                if (altReviews) {
+                    console.log('- #reviews 内容:', altReviews.innerHTML.substring(0, 200));
+                }
+            }
+            
+            // 手动触发内容加载
+            try {
+                await window.techContentLoader.loadContent();
+                console.log('✅ 内容加载完成!');
+            } catch (error) {
+                console.error('❌ 内容加载失败:', error);
+            }
+        }
+        
+        // 页面加载时检查系统状态
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const status = document.getElementById('systemStatus');
+                let html = '';
+                
+                if (window.techContentLoader) {
+                    html += '<div class="success">✅ 动态内容加载器已初始化</div>';
+                    html += '<div class="info">📊 缓存状态: ' + (window.techContentLoader.cache.data ? '有数据' : '无数据') + '</div>';
+                } else {
+                    html += '<div class="error">❌ 动态内容加载器未找到</div>';
+                }
+                
+                html += '<div class="info">🌍 页面: ' + window.location.href + '</div>';
+                html += '<div class="info">📱 用户代理: ' + navigator.userAgent.substring(0, 100) + '</div>';
+                
+                status.innerHTML = html;
+                
+                // 自动运行选择器检查
+                setTimeout(checkSelectors, 1000);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

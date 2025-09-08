@@ -293,12 +293,40 @@ class TechContentLoader {
     async updateMainArticles() {
         try {
             const content = await this.fetchTechNews();
-            const latestSection = document.querySelector('#latest .blog-posts');
-            const reviewsSection = document.querySelector('#reviews .blog-posts');
+            
+            // 尝试多种选择器策略
+            let latestSection = document.querySelector('#latest .blog-posts');
+            let reviewsSection = document.querySelector('#reviews .blog-posts');
+            
+            // 如果直接选择器失败，尝试分步查找
+            if (!latestSection) {
+                const latestContainer = document.getElementById('latest');
+                if (latestContainer) {
+                    latestSection = latestContainer.querySelector('.blog-posts');
+                }
+            }
+            
+            if (!reviewsSection) {
+                const reviewsContainer = document.getElementById('reviews');
+                if (reviewsContainer) {
+                    reviewsSection = reviewsContainer.querySelector('.blog-posts');
+                }
+            }
             
             // 调试信息
-            console.log('Latest section found:', !!latestSection);
-            console.log('Reviews section found:', !!reviewsSection);
+            console.log('🔍 选择器查找结果:');
+            console.log('- Latest section found:', !!latestSection);
+            console.log('- Reviews section found:', !!reviewsSection);
+            
+            if (latestSection) {
+                console.log('- Latest section tagName:', latestSection.tagName);
+                console.log('- Latest section class:', latestSection.className);
+            }
+            
+            if (reviewsSection) {
+                console.log('- Reviews section tagName:', reviewsSection.tagName);  
+                console.log('- Reviews section class:', reviewsSection.className);
+            }
 
             // 更新Latest Posts
             if (latestSection) {
