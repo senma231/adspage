@@ -94,6 +94,7 @@
         <button onclick="checkAPIDataInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #ffc107; color: black; border: none; border-radius: 3px; cursor: pointer;">检查API数据</button>
         <button onclick="compareContentInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #6f42c1; color: white; border: none; border-radius: 3px; cursor: pointer;">对比内容变化</button>
         <button onclick="debugInnerHTMLInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer;">调试innerHTML操作</button>
+        <button onclick="checkConsoleLogsInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #17a2b8; color: white; border: none; border-radius: 3px; cursor: pointer;">检查控制台日志</button>
         <div id="inlineDebugResults" style="margin-top: 10px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 10px;"></div>
     </div>
     
@@ -658,6 +659,77 @@
             } catch (error) {
                 results.innerHTML += `❌ 调试失败: ${error.message}<br>`;
             }
+        }
+        
+        function checkConsoleLogsInline() {
+            const results = document.getElementById('inlineDebugResults');
+            results.innerHTML = '📋 控制台日志检查...<br>';
+            
+            if (!window.techContentLoader) {
+                results.innerHTML += '❌ techContentLoader未找到<br>';
+                return;
+            }
+            
+            // 检查自动加载是否真的执行了
+            results.innerHTML += '<strong>🔍 手动触发自动加载流程:</strong><br>';
+            
+            // 重写console.log来捕获日志
+            const originalLog = console.log;
+            const originalError = console.error;
+            const capturedLogs = [];
+            
+            console.log = function(...args) {
+                capturedLogs.push({ type: 'log', message: args.join(' ') });
+                originalLog.apply(console, args);
+            };
+            
+            console.error = function(...args) {
+                capturedLogs.push({ type: 'error', message: args.join(' ') });
+                originalError.apply(console, args);
+            };
+            
+            // 手动触发loadContent
+            window.techContentLoader.loadContent().then(() => {
+                // 恢复console函数
+                console.log = originalLog;
+                console.error = originalError;
+                
+                results.innerHTML += '<br><strong>📝 捕获的日志:</strong><br>';
+                if (capturedLogs.length === 0) {
+                    results.innerHTML += '⚠️ 没有捕获到任何日志!<br>';
+                    results.innerHTML += '这说明loadContent方法可能没有执行console.log<br>';
+                } else {
+                    capturedLogs.forEach(log => {
+                        const color = log.type === 'error' ? 'red' : 'green';
+                        results.innerHTML += `<span style="color: ${color}">[${log.type.toUpperCase()}] ${log.message}</span><br>`;
+                    });
+                }
+                
+                // 检查方法执行结果
+                results.innerHTML += '<br><strong>🔧 执行后状态检查:</strong><br>';
+                
+                const latestSection = document.querySelector('#latest .blog-posts');
+                const reviewsSection = document.querySelector('#reviews .blog-posts');
+                
+                if (latestSection) {
+                    const hasNewContent = latestSection.innerHTML.includes('Open Source') || 
+                                         latestSection.innerHTML.includes('Essential Dev') ||
+                                         latestSection.innerHTML.includes('Today');
+                    results.innerHTML += `Latest区域: ${hasNewContent ? '✅ 包含新内容' : '❌ 仍是旧内容'}<br>`;
+                }
+                
+                if (reviewsSection) {
+                    const hasNewContent = reviewsSection.innerHTML.includes('Open Source') || 
+                                         reviewsSection.innerHTML.includes('Essential Dev') ||
+                                         reviewsSection.innerHTML.includes('Today');
+                    results.innerHTML += `Reviews区域: ${hasNewContent ? '✅ 包含新内容' : '❌ 仍是旧内容'}<br>`;
+                }
+                
+            }).catch(error => {
+                console.log = originalLog;
+                console.error = originalError;
+                results.innerHTML += `❌ 执行失败: ${error.message}<br>`;
+            });
         }
         
         // 页面完全加载后自动运行一次测试
