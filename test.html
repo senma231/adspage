@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态内容测试 - TechLife Blog</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .test-container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #fff3cd; color: #856404; }
+        .blog-posts, .popular-posts { margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 4px; }
+        .api-status { position: fixed; top: 10px; right: 10px; padding: 5px 10px; background: #28a745; color: white; border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity 0.3s ease; }
+        .api-status.show { opacity: 1; }
+        .api-status.loading { background: #ffc107; color: #000; }
+        .api-status.error { background: #dc3545; }
+        .api-status.success { background: #28a745; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="api-status" id="apiStatus">Loading content...</div>
+    
+    <div class="test-container">
+        <h1>🧪 动态内容系统测试</h1>
+        
+        <div class="controls">
+            <button onclick="testAPIs()">测试API连接</button>
+            <button onclick="loadFreshContent()">加载新内容</button>
+            <button onclick="showCacheStatus()">显示缓存状态</button>
+            <button onclick="clearCache()">清除缓存</button>
+        </div>
+        
+        <div id="testResults"></div>
+        
+        <h3>📰 Popular Posts (侧边栏测试)</h3>
+        <ul class="popular-posts">
+            <li>等待内容加载...</li>
+        </ul>
+        
+        <h3>📝 Latest Articles (主内容测试)</h3>
+        <div class="blog-posts">
+            <p>等待内容加载...</p>
+        </div>
+        
+        <h3>📊 Tech Reviews (评测内容测试)</h3>
+        <div id="reviews" class="section">
+            <div class="blog-posts">
+                <p>等待内容加载...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="content-loader.js"></script>
+    <script>
+        // 测试函数
+        async function testAPIs() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<div class="loading">正在测试API连接...</div>';
+            
+            const tests = [
+                { name: 'Dev.to API', url: 'https://dev.to/api/articles?tag=javascript&top=7' },
+                { name: 'GitHub API', url: 'https://api.github.com/search/repositories?q=language:javascript+stars:>100&sort=updated&per_page=3' },
+                { name: 'RSS转JSON', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://techcrunch.com/feed/' }
+            ];
+            
+            let testHTML = '<h4>API测试结果:</h4>';
+            
+            for (const test of tests) {
+                try {
+                    const response = await fetch(test.url);
+                    if (response.ok) {
+                        const data = await response.json();
+                        testHTML += `<div class="success">✅ ${test.name}: 连接成功 (${Array.isArray(data) ? data.length : (data.items ? data.items.length : 'N/A')} 条目)</div>`;
+                    } else {
+                        testHTML += `<div class="error">❌ ${test.name}: HTTP ${response.status}</div>`;
+                    }
+                } catch (error) {
+                    testHTML += `<div class="error">❌ ${test.name}: ${error.message}</div>`;
+                }
+            }
+            
+            results.innerHTML = testHTML;
+        }
+        
+        async function loadFreshContent() {
+            if (window.techContentLoader) {
+                await window.techContentLoader.loadContent();
+            } else {
+                alert('内容加载器未初始化');
+            }
+        }
+        
+        function showCacheStatus() {
+            if (window.techContentLoader && window.techContentLoader.cache.data) {
+                const cacheAge = Date.now() - window.techContentLoader.cache.timestamp;
+                alert(`缓存状态: ${window.techContentLoader.cache.data.length} 条内容, ${Math.floor(cacheAge/1000/60)} 分钟前缓存`);
+            } else {
+                alert('无缓存数据');
+            }
+        }
+        
+        function clearCache() {
+            if (window.techContentLoader) {
+                window.techContentLoader.cache = { data: null, timestamp: null, duration: 30 * 60 * 1000 };
+                alert('缓存已清除');
+            }
+        }
+        
+        // 页面加载完成后显示状态
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const status = window.techContentLoader ? '动态内容系统已加载' : '动态内容系统加载失败';
+                document.getElementById('testResults').innerHTML = `<div class="${window.techContentLoader ? 'success' : 'error'}">${status}</div>`;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
