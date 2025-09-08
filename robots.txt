@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://techinfo.com/sitemap.xml
+
+# 禁止抓取广告相关目录（如果有的话）
+Disallow: /ads/
+Disallow: /ad-assets/
+
+# 允许抓取所有其他内容
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# 搜索引擎爬虫延迟
+Crawl-delay: 1
