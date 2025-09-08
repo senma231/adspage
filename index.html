@@ -91,6 +91,8 @@
         </div>
         <button onclick="testSelectorsInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">检查选择器</button>
         <button onclick="loadContentDebugInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">强制加载内容</button>
+        <button onclick="checkAPIDataInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #ffc107; color: black; border: none; border-radius: 3px; cursor: pointer;">检查API数据</button>
+        <button onclick="compareContentInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #6f42c1; color: white; border: none; border-radius: 3px; cursor: pointer;">对比内容变化</button>
         <div id="inlineDebugResults" style="margin-top: 10px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 10px;"></div>
     </div>
     
@@ -458,6 +460,103 @@
                 } catch (error) {
                     results.innerHTML += '❌ 加载失败: ' + error.message + '<br>';
                 }
+            } else {
+                results.innerHTML += '❌ techContentLoader未找到<br>';
+            }
+        }
+        
+        async function checkAPIDataInline() {
+            const results = document.getElementById('inlineDebugResults');
+            results.innerHTML = '正在检查API数据...<br>';
+            
+            if (!window.techContentLoader) {
+                results.innerHTML += '❌ techContentLoader未找到<br>';
+                return;
+            }
+            
+            try {
+                // 直接调用API获取方法
+                const content = await window.techContentLoader.fetchTechNews();
+                results.innerHTML += `✅ API数据获取成功<br>`;
+                results.innerHTML += `📊 数据条目: ${content ? content.length : 0}<br>`;
+                
+                if (content && content.length > 0) {
+                    results.innerHTML += '<br><strong>前3条数据预览:</strong><br>';
+                    content.slice(0, 3).forEach((item, index) => {
+                        results.innerHTML += `${index + 1}. ${item.title ? item.title.substring(0, 50) + '...' : '无标题'}<br>`;
+                        results.innerHTML += `   分类: ${item.category || '未知'}<br>`;
+                        results.innerHTML += `   日期: ${item.date || '未知'}<br><br>`;
+                    });
+                    
+                    // 检查缓存状态
+                    const cacheData = window.techContentLoader.cache.data;
+                    results.innerHTML += `💾 缓存状态: ${cacheData ? '有数据 (' + cacheData.length + '条)' : '无缓存'}<br>`;
+                    if (window.techContentLoader.cache.timestamp) {
+                        const cacheAge = Math.floor((Date.now() - window.techContentLoader.cache.timestamp) / 1000 / 60);
+                        results.innerHTML += `⏱️ 缓存年龄: ${cacheAge}分钟<br>`;
+                    }
+                } else {
+                    results.innerHTML += '⚠️ API返回空数据或格式错误<br>';
+                    
+                    // 尝试显示fallback内容
+                    const fallback = window.techContentLoader.fallbackContent;
+                    if (fallback && fallback.length > 0) {
+                        results.innerHTML += `📋 Fallback数据: ${fallback.length}条<br>`;
+                        results.innerHTML += `   示例: ${fallback[0].title.substring(0, 40)}...<br>`;
+                    }
+                }
+            } catch (error) {
+                results.innerHTML += `❌ API调用失败: ${error.message}<br>`;
+            }
+        }
+        
+        function compareContentInline() {
+            const results = document.getElementById('inlineDebugResults');
+            
+            // 记录更新前的内容
+            const latestBefore = document.querySelector('#latest .blog-posts');
+            const reviewsBefore = document.querySelector('#reviews .blog-posts');
+            
+            const latestContentBefore = latestBefore ? latestBefore.innerHTML : '';
+            const reviewsContentBefore = reviewsBefore ? reviewsBefore.innerHTML : '';
+            
+            results.innerHTML = `<strong>更新前内容长度:</strong><br>`;
+            results.innerHTML += `Latest: ${latestContentBefore.length} 字符<br>`;
+            results.innerHTML += `Reviews: ${reviewsContentBefore.length} 字符<br><br>`;
+            
+            // 执行内容加载
+            results.innerHTML += '正在更新内容...<br>';
+            
+            if (window.techContentLoader) {
+                window.techContentLoader.loadContent().then(() => {
+                    // 检查更新后的内容
+                    const latestAfter = document.querySelector('#latest .blog-posts');
+                    const reviewsAfter = document.querySelector('#reviews .blog-posts');
+                    
+                    const latestContentAfter = latestAfter ? latestAfter.innerHTML : '';
+                    const reviewsContentAfter = reviewsAfter ? reviewsAfter.innerHTML : '';
+                    
+                    results.innerHTML += `<br><strong>更新后内容长度:</strong><br>`;
+                    results.innerHTML += `Latest: ${latestContentAfter.length} 字符<br>`;
+                    results.innerHTML += `Reviews: ${reviewsContentAfter.length} 字符<br><br>`;
+                    
+                    // 检查是否有变化
+                    const latestChanged = latestContentBefore !== latestContentAfter;
+                    const reviewsChanged = reviewsContentBefore !== reviewsContentAfter;
+                    
+                    results.innerHTML += `<strong>变化检测:</strong><br>`;
+                    results.innerHTML += `Latest: ${latestChanged ? '✅ 有变化' : '❌ 无变化'}<br>`;
+                    results.innerHTML += `Reviews: ${reviewsChanged ? '✅ 有变化' : '❌ 无变化'}<br>`;
+                    
+                    if (!latestChanged && !reviewsChanged) {
+                        results.innerHTML += '<br>⚠️ 内容未更新可能原因:<br>';
+                        results.innerHTML += '1. API返回空数据<br>';
+                        results.innerHTML += '2. 内容渲染逻辑错误<br>';
+                        results.innerHTML += '3. 数据格式不匹配<br>';
+                    }
+                }).catch(error => {
+                    results.innerHTML += `❌ 更新失败: ${error.message}<br>`;
+                });
             } else {
                 results.innerHTML += '❌ techContentLoader未找到<br>';
             }
