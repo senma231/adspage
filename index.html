@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M3K55RK9');</script>
+    <!-- End Google Tag Manager -->
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SenmaInfo - Tech News, Reviews & Analysis</title>
@@ -69,7 +77,8 @@
     }
     </script>
 
-    <!-- Google Analytics 4 -->
+    <!-- Google Analytics 4 - 已迁移到GTM，保留备用 -->
+    <!--
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -98,6 +107,7 @@
             }
         });
     </script>
+    -->
     
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="GOOGLE_SEARCH_CONSOLE_CODE" />
@@ -113,35 +123,72 @@
     
     <!-- Performance and Traffic Monitoring -->
     <script>
-        // 页面性能监控
+        // 页面性能监控 (GTM版本)
         window.addEventListener('load', function() {
-            // 发送页面加载时间到GA4
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            
+            // GTM DataLayer推送
+            pushToDataLayer('page_load_time', {
+                load_time: Math.round(loadTime),
+                page_type: 'tech_content',
+                value: Math.round(loadTime / 1000), // 转换为秒作为价值
+                currency: 'USD'
+            });
+            
+            // 保持原有兼容性
             if (typeof gtag !== 'undefined') {
-                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
                 gtag('event', 'page_load_time', {
                     value: Math.round(loadTime),
                     custom_parameter: 'tech_content'
                 });
-                
-                // Core Web Vitals 监控
-                if ('PerformanceObserver' in window) {
-                    const observer = new PerformanceObserver((list) => {
-                        for (const entry of list.getEntries()) {
-                            if (entry.entryType === 'largest-contentful-paint') {
+            }
+            
+            // Core Web Vitals 监控
+            if ('PerformanceObserver' in window) {
+                const observer = new PerformanceObserver((list) => {
+                    for (const entry of list.getEntries()) {
+                        if (entry.entryType === 'largest-contentful-paint') {
+                            // GTM DataLayer推送
+                            pushToDataLayer('core_web_vital', {
+                                metric_name: 'LCP',
+                                metric_value: Math.round(entry.startTime),
+                                page_type: 'tech_content'
+                            });
+                            
+                            // 保持原有兼容性
+                            if (typeof gtag !== 'undefined') {
                                 gtag('event', 'lcp', {
                                     value: Math.round(entry.startTime),
                                     metric_value: Math.round(entry.startTime)
                                 });
                             }
                         }
-                    });
-                    observer.observe({ entryTypes: ['largest-contentful-paint'] });
-                }
+                    }
+                });
+                observer.observe({ entryTypes: ['largest-contentful-paint'] });
             }
         });
         
-        // 广告展示监控
+        // GTM DataLayer 事件推送函数
+        function pushToDataLayer(eventName, eventData = {}) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: eventName,
+                ...eventData
+            });
+        }
+        
+        // 广告展示监控 (GTM版本)
         function trackAdView(adPosition, adNetwork) {
+            pushToDataLayer('ad_impression', {
+                ad_position: adPosition,
+                ad_network: adNetwork,
+                page_type: 'homepage',
+                value: 0.01,
+                currency: 'USD'
+            });
+            
+            // 保持原有gtag兼容性
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'ad_impression', {
                     ad_position: adPosition,
@@ -159,8 +206,16 @@
             }
         }
         
-        // Google Ads 专用转化跟踪
+        // GTM版本的转化跟踪
         function trackGoogleAdsConversion(conversionLabel, value = 1) {
+            pushToDataLayer('conversion', {
+                conversion_label: conversionLabel,
+                value: value,
+                currency: 'USD',
+                transaction_id: Date.now() + '_' + Math.random()
+            });
+            
+            // 保持原有gtag兼容性
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'conversion', {
                     send_to: 'AW-CONVERSION_ID/' + conversionLabel,
@@ -171,8 +226,16 @@
             }
         }
         
-        // Affiliate链接点击跟踪
+        // GTM版本的Affiliate链接跟踪
         function trackAffiliateClick(affiliateNetwork, position) {
+            pushToDataLayer('affiliate_click', {
+                affiliate_network: affiliateNetwork,
+                click_position: position,
+                currency: 'USD',
+                value: 0.20
+            });
+            
+            // 保持原有gtag兼容性
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'affiliate_click', {
                     affiliate_network: affiliateNetwork,
@@ -192,6 +255,16 @@
             document.querySelectorAll('.read-more').forEach(link => {
                 link.addEventListener('click', function(e) {
                     const articleTitle = this.closest('.blog-post').querySelector('h3').textContent;
+                    
+                    // GTM DataLayer推送
+                    pushToDataLayer('article_click', {
+                        article_title: articleTitle,
+                        click_position: 'read_more_button',
+                        value: 0.05,
+                        currency: 'USD'
+                    });
+                    
+                    // 保持原有兼容性
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'article_click', {
                             article_title: articleTitle,
@@ -207,6 +280,15 @@
             // 监控导航使用
             document.querySelectorAll('.nav-menu a').forEach(link => {
                 link.addEventListener('click', function(e) {
+                    // GTM DataLayer推送
+                    pushToDataLayer('navigation_click', {
+                        nav_item: this.textContent,
+                        target_section: this.getAttribute('href'),
+                        value: 0.02,
+                        currency: 'USD'
+                    });
+                    
+                    // 保持原有兼容性
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'navigation_click', {
                             nav_item: this.textContent,
@@ -224,6 +306,16 @@
             window.addEventListener('scroll', function() {
                 if (!scrollTracked && window.scrollY > document.body.scrollHeight * 0.5) {
                     scrollTracked = true;
+                    
+                    // GTM DataLayer推送
+                    pushToDataLayer('scroll_depth', {
+                        scroll_depth: 50,
+                        engagement_type: 'deep_scroll',
+                        value: 0.03,
+                        currency: 'USD'
+                    });
+                    
+                    // 保持原有兼容性
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'scroll_depth', {
                             scroll_depth: 50,
@@ -240,15 +332,26 @@
             let startTime = Date.now();
             window.addEventListener('beforeunload', function() {
                 const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-                if (timeSpent > 30 && typeof gtag !== 'undefined') {
-                    gtag('event', 'time_on_page', {
+                if (timeSpent > 30) {
+                    // GTM DataLayer推送
+                    pushToDataLayer('time_on_page', {
                         time_spent: timeSpent,
-                        engagement_level: timeSpent > 120 ? 'high' : 'medium'
+                        engagement_level: timeSpent > 120 ? 'high' : 'medium',
+                        value: timeSpent > 60 ? 0.10 : 0.05,
+                        currency: 'USD'
                     });
                     
-                    // Google Ads 转化：质量访问
-                    if (timeSpent > 60) {
-                        trackGoogleAdsConversion('QUALITY_VISIT_LABEL', 0.10);
+                    // 保持原有兼容性
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'time_on_page', {
+                            time_spent: timeSpent,
+                            engagement_level: timeSpent > 120 ? 'high' : 'medium'
+                        });
+                        
+                        // Google Ads 转化：质量访问
+                        if (timeSpent > 60) {
+                            trackGoogleAdsConversion('QUALITY_VISIT_LABEL', 0.10);
+                        }
                     }
                 }
             });
@@ -275,6 +378,11 @@
     </script>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3K55RK9"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <header>
         <!-- PopCash Affiliate Banner -->
         <div class="affiliate-banner">
