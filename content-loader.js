@@ -296,39 +296,51 @@ class TechContentLoader {
             const latestSection = document.querySelector('#latest .blog-posts');
             const reviewsSection = document.querySelector('#reviews .blog-posts');
             
-            if (!latestSection || !reviewsSection) return;
+            // 调试信息
+            console.log('Latest section found:', !!latestSection);
+            console.log('Reviews section found:', !!reviewsSection);
 
             // 更新Latest Posts
-            latestSection.innerHTML = content.slice(0, 3).map(article => 
-                `<article class="blog-post">
-                    <div class="post-meta">
-                        <span class="post-date">${article.date}</span>
-                        <span class="post-category">${article.category}</span>
-                    </div>
-                    <h3><a href="#">${article.title}</a></h3>
-                    <p class="post-excerpt">${article.description}</p>
-                    <div class="post-footer">
-                        <span class="read-time">${article.readTime}</span>
-                        <a href="#" class="read-more">Continue Reading →</a>
-                    </div>
-                </article>`
-            ).join('');
+            if (latestSection) {
+                latestSection.innerHTML = content.slice(0, 3).map(article => 
+                    `<article class="blog-post">
+                        <div class="post-meta">
+                            <span class="post-date">${article.date}</span>
+                            <span class="post-category">${article.category}</span>
+                        </div>
+                        <h3><a href="article.html">${article.title}</a></h3>
+                        <p class="post-excerpt">${article.description}</p>
+                        <div class="post-footer">
+                            <span class="read-time">${article.readTime}</span>
+                            <a href="article.html" class="read-more">Continue Reading →</a>
+                        </div>
+                    </article>`
+                ).join('');
+                console.log('✅ Latest section updated');
+            } else {
+                console.error('❌ Latest section not found');
+            }
 
             // 更新Reviews Section
-            reviewsSection.innerHTML = content.slice(3, 6).map(article => 
-                `<article class="blog-post">
-                    <div class="post-meta">
-                        <span class="post-date">${article.date}</span>
-                        <span class="post-category">${article.category}</span>
-                    </div>
-                    <h3><a href="#">${article.title}</a></h3>
-                    <p class="post-excerpt">${article.description}</p>
-                    <div class="post-footer">
-                        <span class="read-time">${article.readTime}</span>
-                        <a href="#" class="read-more">Continue Reading →</a>
-                    </div>
-                </article>`
-            ).join('');
+            if (reviewsSection) {
+                reviewsSection.innerHTML = content.slice(3, 6).map(article => 
+                    `<article class="blog-post">
+                        <div class="post-meta">
+                            <span class="post-date">${article.date}</span>
+                            <span class="post-category">${article.category}</span>
+                        </div>
+                        <h3><a href="article.html">${article.title}</a></h3>
+                        <p class="post-excerpt">${article.description}</p>
+                        <div class="post-footer">
+                            <span class="read-time">${article.readTime}</span>
+                            <a href="article.html" class="read-more">Continue Reading →</a>
+                        </div>
+                    </article>`
+                ).join('');
+                console.log('✅ Reviews section updated');
+            } else {
+                console.error('❌ Reviews section not found');
+            }
 
             console.log('✅ Main articles updated with fresh content');
         } catch (error) {
@@ -340,13 +352,13 @@ class TechContentLoader {
     async init() {
         console.log('🚀 Initializing dynamic content loader...');
         
-        // 页面加载完成后立即更新内容
+        // 等待DOM完全加载
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
-                this.loadContent();
+                setTimeout(() => this.loadContent(), 1000); // 延迟1秒确保DOM完全渲染
             });
         } else {
-            this.loadContent();
+            setTimeout(() => this.loadContent(), 1000);
         }
     }
 
