@@ -12,6 +12,32 @@ body {
     background-color: #f8f9fa;
 }
 
+/* PopCash 推荐链接样式 */
+.affiliate-banner {
+    background-color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.affiliate-banner a {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.affiliate-banner a:hover {
+    opacity: 0.8;
+}
+
+.affiliate-banner img {
+    max-width: 728px;
+    width: 100%;
+    height: auto;
+    max-height: 90px;
+    object-fit: contain;
+}
+
 /* 导航栏样式 */
 .navbar {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -493,6 +519,15 @@ footer {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+    .affiliate-banner {
+        padding: 5px 0;
+    }
+    
+    .affiliate-banner img {
+        max-width: 95%;
+        max-height: 70px;
+    }
+    
     .nav-container {
         flex-direction: column;
         gap: 1rem;

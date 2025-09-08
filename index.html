@@ -69,14 +69,220 @@
     }
     </script>
 
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'SenmaInfo - Tech News',
+            page_location: 'https://bg.senma.info/',
+            custom_map: {
+                'custom_parameter': 'tech_content'
+            }
+        });
+        
+        // Google Ads 转化跟踪配置
+        gtag('config', 'AW-CONVERSION_ID');
+    </script>
+    
+    <!-- Google Ads 再营销代码 -->
+    <script>
+        gtag('event', 'page_view', {
+            send_to: 'AW-CONVERSION_ID',
+            custom_parameters: {
+                'content_category': 'tech_news',
+                'site_type': 'blog',
+                'user_type': 'visitor'
+            }
+        });
+    </script>
+    
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="GOOGLE_SEARCH_CONSOLE_CODE" />
+    
+    <!-- Microsoft Bing Webmaster Tools -->
+    <meta name="msvalidate.01" content="BING_VERIFICATION_CODE" />
+
     <link rel="stylesheet" href="styles.css">
     <link rel="canonical" href="https://bg.senma.info/">
     
     <!-- Dynamic Content Loader -->
     <script src="content-loader.js" defer></script>
+    
+    <!-- Performance and Traffic Monitoring -->
+    <script>
+        // 页面性能监控
+        window.addEventListener('load', function() {
+            // 发送页面加载时间到GA4
+            if (typeof gtag !== 'undefined') {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                gtag('event', 'page_load_time', {
+                    value: Math.round(loadTime),
+                    custom_parameter: 'tech_content'
+                });
+                
+                // Core Web Vitals 监控
+                if ('PerformanceObserver' in window) {
+                    const observer = new PerformanceObserver((list) => {
+                        for (const entry of list.getEntries()) {
+                            if (entry.entryType === 'largest-contentful-paint') {
+                                gtag('event', 'lcp', {
+                                    value: Math.round(entry.startTime),
+                                    metric_value: Math.round(entry.startTime)
+                                });
+                            }
+                        }
+                    });
+                    observer.observe({ entryTypes: ['largest-contentful-paint'] });
+                }
+            }
+        });
+        
+        // 广告展示监控
+        function trackAdView(adPosition, adNetwork) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'ad_impression', {
+                    ad_position: adPosition,
+                    ad_network: adNetwork,
+                    page_type: 'homepage'
+                });
+                
+                // Google Ads 转化事件
+                gtag('event', 'conversion', {
+                    send_to: 'AW-CONVERSION_ID/AD_VIEW_LABEL',
+                    value: 0.01,
+                    currency: 'USD',
+                    transaction_id: Date.now() + '_' + Math.random()
+                });
+            }
+        }
+        
+        // Google Ads 专用转化跟踪
+        function trackGoogleAdsConversion(conversionLabel, value = 1) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', {
+                    send_to: 'AW-CONVERSION_ID/' + conversionLabel,
+                    value: value,
+                    currency: 'USD',
+                    transaction_id: Date.now() + '_' + Math.random()
+                });
+            }
+        }
+        
+        // Affiliate链接点击跟踪
+        function trackAffiliateClick(affiliateNetwork, position) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'affiliate_click', {
+                    affiliate_network: affiliateNetwork,
+                    click_position: position,
+                    currency: 'USD',
+                    value: 0.20
+                });
+                
+                // Google Ads转化跟踪
+                trackGoogleAdsConversion('AFFILIATE_CLICK_LABEL', 0.20);
+            }
+        }
+        
+        // 用户互动监控
+        document.addEventListener('DOMContentLoaded', function() {
+            // 监控文章点击
+            document.querySelectorAll('.read-more').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const articleTitle = this.closest('.blog-post').querySelector('h3').textContent;
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'article_click', {
+                            article_title: articleTitle,
+                            click_position: 'read_more_button'
+                        });
+                        
+                        // Google Ads 转化：文章阅读
+                        trackGoogleAdsConversion('ARTICLE_READ_LABEL', 0.05);
+                    }
+                });
+            });
+            
+            // 监控导航使用
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'navigation_click', {
+                            nav_item: this.textContent,
+                            target_section: this.getAttribute('href')
+                        });
+                        
+                        // Google Ads 转化：导航互动
+                        trackGoogleAdsConversion('NAVIGATION_LABEL', 0.02);
+                    }
+                });
+            });
+            
+            // 监控页面滚动深度（用户参与度）
+            let scrollTracked = false;
+            window.addEventListener('scroll', function() {
+                if (!scrollTracked && window.scrollY > document.body.scrollHeight * 0.5) {
+                    scrollTracked = true;
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'scroll_depth', {
+                            scroll_depth: 50,
+                            engagement_type: 'deep_scroll'
+                        });
+                        
+                        // Google Ads 转化：深度参与
+                        trackGoogleAdsConversion('ENGAGEMENT_LABEL', 0.03);
+                    }
+                }
+            });
+            
+            // 监控页面停留时间
+            let startTime = Date.now();
+            window.addEventListener('beforeunload', function() {
+                const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+                if (timeSpent > 30 && typeof gtag !== 'undefined') {
+                    gtag('event', 'time_on_page', {
+                        time_spent: timeSpent,
+                        engagement_level: timeSpent > 120 ? 'high' : 'medium'
+                    });
+                    
+                    // Google Ads 转化：质量访问
+                    if (timeSpent > 60) {
+                        trackGoogleAdsConversion('QUALITY_VISIT_LABEL', 0.10);
+                    }
+                }
+            });
+            
+            // 监控广告区域可见性
+            if ('IntersectionObserver' in window) {
+                const adObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const adContainer = entry.target;
+                            const adPosition = adContainer.className.includes('top-ad') ? 'top_banner' :
+                                             adContainer.className.includes('middle-ad') ? 'middle_content' :
+                                             adContainer.className.includes('sidebar-ad') ? 'sidebar' : 'unknown';
+                            trackAdView(adPosition, 'monetizemore');
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.ad-container').forEach(ad => {
+                    adObserver.observe(ad);
+                });
+            }
+        });
+    </script>
 </head>
 <body>
     <header>
+        <!-- PopCash Affiliate Banner -->
+        <div class="affiliate-banner">
+            <a href="https://popcash.net/home/494658" target="_blank" title="PopCash - The Popunder network" onclick="trackAffiliateClick('PopCash', 'Header Banner')">
+                <img src="https://static.popcash.net/img/affiliate/728x90.jpg" alt="PopCash.net">
+            </a>
+        </div>
+        
         <nav class="navbar">
             <div class="nav-container">
                 <div class="logo">
