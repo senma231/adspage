@@ -11,8 +11,29 @@
     <!-- Ad Network Verification -->
     <meta name="ppck-ver" content="48b35289b5ad26bcf640faf4a53a75eb"/>
     <meta name="mnd-ver" content="nh2kjcpcpq3r86yhnu3auq"/>
-    <script async src="https://ss.mrmnd.com/banner.js"></script>
-    <script async src="https://ss.mrmnd.com/native.js"></script>
+    
+    <!-- MonetizeMore Scripts with Error Handling -->
+    <script>
+    (function() {
+        function loadScript(src, id) {
+            var script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            script.id = id;
+            script.onerror = function() {
+                console.warn('Failed to load: ' + src);
+                // 如果主脚本失败，可以添加备用逻辑
+            };
+            script.onload = function() {
+                console.log('Loaded successfully: ' + src);
+            };
+            document.head.appendChild(script);
+        }
+        
+        loadScript('https://ss.mrmnd.com/banner.js', 'mrmnd-banner');
+        loadScript('https://ss.mrmnd.com/native.js', 'mrmnd-native');
+    })();
+    </script>
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -287,18 +308,44 @@
         </div>
     </footer>
     
-    <!-- PopCash Tabunder Ad -->
+    <!-- PopCash Tabunder Ad with Enhanced Error Handling -->
     <script type="text/javascript">
-       var uid = '494658';
-       var wid = '745551';
-       var pop_tag = document.createElement('script');
-       pop_tag.src='https://cdn.popcash.net/show.js';
-       document.body.appendChild(pop_tag);
-       pop_tag.onerror = function() {
-           pop_tag = document.createElement('script');
-           pop_tag.src='https://cdn2.popcash.net/show.js';
-           document.body.appendChild(pop_tag);
-       };
+       (function() {
+           var uid = '494658';
+           var wid = '745551';
+           var retryCount = 0;
+           var maxRetries = 2;
+           
+           function loadPopCash(cdnUrl) {
+               var pop_tag = document.createElement('script');
+               pop_tag.src = cdnUrl;
+               pop_tag.async = true;
+               
+               pop_tag.onload = function() {
+                   console.log('PopCash loaded successfully from: ' + cdnUrl);
+               };
+               
+               pop_tag.onerror = function() {
+                   console.warn('PopCash failed to load from: ' + cdnUrl);
+                   if (retryCount < maxRetries) {
+                       retryCount++;
+                       var fallbackUrl = retryCount === 1 ? 
+                           'https://cdn2.popcash.net/show.js' : 
+                           'https://cdn3.popcash.net/show.js';
+                       setTimeout(function() {
+                           loadPopCash(fallbackUrl);
+                       }, 1000 * retryCount); // 渐进延迟
+                   }
+               };
+               
+               document.body.appendChild(pop_tag);
+           }
+           
+           // 初始加载，延迟执行避免与页面加载冲突
+           setTimeout(function() {
+               loadPopCash('https://cdn.popcash.net/show.js');
+           }, 2000);
+       })();
     </script>
 </body>
 </html>
