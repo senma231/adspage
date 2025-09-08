@@ -93,6 +93,7 @@
         <button onclick="loadContentDebugInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">强制加载内容</button>
         <button onclick="checkAPIDataInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #ffc107; color: black; border: none; border-radius: 3px; cursor: pointer;">检查API数据</button>
         <button onclick="compareContentInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #6f42c1; color: white; border: none; border-radius: 3px; cursor: pointer;">对比内容变化</button>
+        <button onclick="debugInnerHTMLInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer;">调试innerHTML操作</button>
         <div id="inlineDebugResults" style="margin-top: 10px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 10px;"></div>
     </div>
     
@@ -559,6 +560,103 @@
                 });
             } else {
                 results.innerHTML += '❌ techContentLoader未找到<br>';
+            }
+        }
+        
+        async function debugInnerHTMLInline() {
+            const results = document.getElementById('inlineDebugResults');
+            results.innerHTML = '🔍 开始innerHTML操作调试...<br>';
+            
+            if (!window.techContentLoader) {
+                results.innerHTML += '❌ techContentLoader未找到<br>';
+                return;
+            }
+            
+            try {
+                // 获取数据
+                const content = await window.techContentLoader.fetchTechNews();
+                results.innerHTML += `✅ 获得${content.length}条数据<br>`;
+                
+                // 手动执行选择器查找和innerHTML更新
+                const latestSection = document.querySelector('#latest .blog-posts');
+                const reviewsSection = document.querySelector('#reviews .blog-posts');
+                
+                results.innerHTML += `📍 Latest选择器: ${latestSection ? '找到' : '未找到'}<br>`;
+                results.innerHTML += `📍 Reviews选择器: ${reviewsSection ? '找到' : '未找到'}<br>`;
+                
+                if (latestSection && content.length > 0) {
+                    // 记录原始内容长度
+                    const originalLength = latestSection.innerHTML.length;
+                    results.innerHTML += `📏 Latest原始长度: ${originalLength}<br>`;
+                    
+                    // 生成新内容HTML
+                    const newHTML = content.slice(0, 3).map(article => 
+                        `<article class="blog-post">
+                            <div class="post-meta">
+                                <span class="post-date">${article.date}</span>
+                                <span class="post-category">${article.category}</span>
+                            </div>
+                            <h3><a href="article.html">${article.title}</a></h3>
+                            <p class="post-excerpt">${article.description}</p>
+                            <div class="post-footer">
+                                <span class="read-time">${article.readTime}</span>
+                                <a href="article.html" class="read-more">Continue Reading →</a>
+                            </div>
+                        </article>`
+                    ).join('');
+                    
+                    results.innerHTML += `📝 新HTML长度: ${newHTML.length}<br>`;
+                    results.innerHTML += `🔧 开始innerHTML替换...<br>`;
+                    
+                    // 执行innerHTML更新
+                    latestSection.innerHTML = newHTML;
+                    
+                    // 立即检查更新结果
+                    const updatedLength = latestSection.innerHTML.length;
+                    results.innerHTML += `📏 更新后长度: ${updatedLength}<br>`;
+                    
+                    const success = updatedLength !== originalLength;
+                    results.innerHTML += `✅ 更新${success ? '成功' : '失败'}<br>`;
+                    
+                    if (!success) {
+                        results.innerHTML += '🚨 innerHTML更新被阻止或覆盖!<br>';
+                        
+                        // 尝试直接设置文本内容
+                        latestSection.textContent = '测试内容替换';
+                        setTimeout(() => {
+                            const testLength = latestSection.innerHTML.length;
+                            results.innerHTML += `🧪 textContent测试长度: ${testLength}<br>`;
+                            if (testLength === originalLength) {
+                                results.innerHTML += '❌ DOM操作完全被阻止<br>';
+                            } else {
+                                results.innerHTML += '⚠️ innerHTML被覆盖但DOM可操作<br>';
+                            }
+                        }, 100);
+                    } else {
+                        results.innerHTML += `📄 新内容预览: ${newHTML.substring(0, 100)}...<br>`;
+                    }
+                }
+                
+                // 对Reviews区域做同样测试
+                if (reviewsSection && content.length > 3) {
+                    results.innerHTML += '<br>🔍 测试Reviews区域...<br>';
+                    const originalLength = reviewsSection.innerHTML.length;
+                    
+                    const newHTML = content.slice(3, 6).map(article => 
+                        `<article class="blog-post">
+                            <h3><a href="article.html">${article.title}</a></h3>
+                            <p class="post-excerpt">${article.description}</p>
+                        </article>`
+                    ).join('');
+                    
+                    reviewsSection.innerHTML = newHTML;
+                    const updatedLength = reviewsSection.innerHTML.length;
+                    
+                    results.innerHTML += `Reviews: ${originalLength} → ${updatedLength} (${updatedLength !== originalLength ? '成功' : '失败'})<br>`;
+                }
+                
+            } catch (error) {
+                results.innerHTML += `❌ 调试失败: ${error.message}<br>`;
             }
         }
         
