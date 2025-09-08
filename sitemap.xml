@@ -6,7 +6,7 @@
 
     <!-- 主页 -->
     <url>
-        <loc>https://techinfo.com/</loc>
+        <loc>https://bg.senma.info/</loc>
         <lastmod>2024-01-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
@@ -14,7 +14,7 @@
 
     <!-- 科技新闻页面 -->
     <url>
-        <loc>https://techinfo.com/tech-news</loc>
+        <loc>https://bg.senma.info/tech-news</loc>
         <lastmod>2024-01-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
@@ -22,7 +22,7 @@
 
     <!-- 产品评测页面 -->
     <url>
-        <loc>https://techinfo.com/reviews</loc>
+        <loc>https://bg.senma.info/reviews</loc>
         <lastmod>2024-01-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -30,7 +30,7 @@
 
     <!-- 软件推荐页面 -->
     <url>
-        <loc>https://techinfo.com/software</loc>
+        <loc>https://bg.senma.info/software</loc>
         <lastmod>2024-01-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -38,7 +38,7 @@
 
     <!-- 技术教程页面 -->
     <url>
-        <loc>https://techinfo.com/tutorials</loc>
+        <loc>https://bg.senma.info/tutorials</loc>
         <lastmod>2024-01-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -46,42 +46,42 @@
 
     <!-- 文章页面示例 -->
     <url>
-        <loc>https://techinfo.com/articles/ai-development-breakthrough</loc>
+        <loc>https://bg.senma.info/articles/ai-development-breakthrough</loc>
         <lastmod>2024-01-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://techinfo.com/articles/5g-technology-iot-opportunities</loc>
+        <loc>https://bg.senma.info/articles/5g-technology-iot-opportunities</loc>
         <lastmod>2024-01-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://techinfo.com/articles/quantum-computing-commercialization</loc>
+        <loc>https://bg.senma.info/articles/quantum-computing-commercialization</loc>
         <lastmod>2024-01-13</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://techinfo.com/reviews/flagship-phone-comparison</loc>
+        <loc>https://bg.senma.info/reviews/flagship-phone-comparison</loc>
         <lastmod>2024-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://techinfo.com/reviews/smartwatch-buying-guide</loc>
+        <loc>https://bg.senma.info/reviews/smartwatch-buying-guide</loc>
         <lastmod>2024-01-11</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://techinfo.com/reviews/gaming-laptop-recommendations</loc>
+        <loc>https://bg.senma.info/reviews/gaming-laptop-recommendations</loc>
         <lastmod>2024-01-10</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -89,28 +89,28 @@
 
     <!-- 其他重要页面 -->
     <url>
-        <loc>https://techinfo.com/about</loc>
+        <loc>https://bg.senma.info/about</loc>
         <lastmod>2024-01-01</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
 
     <url>
-        <loc>https://techinfo.com/contact</loc>
+        <loc>https://bg.senma.info/contact</loc>
         <lastmod>2024-01-01</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
 
     <url>
-        <loc>https://techinfo.com/privacy</loc>
+        <loc>https://bg.senma.info/privacy</loc>
         <lastmod>2024-01-01</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
 
     <url>
-        <loc>https://techinfo.com/terms</loc>
+        <loc>https://bg.senma.info/terms</loc>
         <lastmod>2024-01-01</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>

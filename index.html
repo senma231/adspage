@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechLife Blog - AI, VR, and 2025 Tech Innovations</title>
-    <meta name="description" content="Leading tech blog covering AI breakthroughs, VR/AR reviews, hardware comparisons, and emerging technologies in 2025. Real-world testing and expert insights for tech enthusiasts.">
-    <meta name="keywords" content="AI technology 2025,GPT-5 review,Apple Vision Pro 2,VR AR headsets,M4 MacBook review,tech trends 2025,artificial intelligence,hardware reviews,developer tools">
-    <meta name="author" content="TechLife Blog">
+    <title>SenmaInfo - Tech News, Reviews & Analysis</title>
+    <meta name="description" content="SenmaInfo - Your source for latest tech news, in-depth reviews, and expert analysis. Covering AI, hardware, software, and emerging technologies.">
+    <meta name="keywords" content="SenmaInfo,tech news,hardware reviews,AI technology,software analysis,tech trends,gadget reviews,technology blog">
+    <meta name="author" content="SenmaInfo">
     
     <!-- Ad Network Verification -->
     <meta name="ppck-ver" content="48b35289b5ad26bcf640faf4a53a75eb"/>
@@ -21,11 +21,7 @@
             script.async = true;
             script.id = id;
             script.onerror = function() {
-                console.warn('Failed to load: ' + src);
                 // 如果主脚本失败，可以添加备用逻辑
-            };
-            script.onload = function() {
-                console.log('Loaded successfully: ' + src);
             };
             document.head.appendChild(script);
         }
@@ -40,16 +36,16 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://techlife.blog/">
-    <meta property="og:title" content="TechLife Blog - AI, VR, and 2025 Tech Innovations">
-    <meta property="og:description" content="Leading tech blog covering AI breakthroughs, VR/AR reviews, and emerging technologies in 2025">
+    <meta property="og:url" content="https://bg.senma.info/">
+    <meta property="og:title" content="SenmaInfo - Tech News, Reviews & Analysis">
+    <meta property="og:description" content="Your source for latest tech news, in-depth reviews, and expert analysis. Covering AI, hardware, software, and emerging technologies.">
     <meta property="og:image" content="/images/og-image.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://techlife.blog/">
-    <meta property="twitter:title" content="TechLife Blog - AI, VR, and 2025 Tech Innovations">
-    <meta property="twitter:description" content="Leading tech blog covering AI breakthroughs, VR/AR reviews, and emerging technologies in 2025">
+    <meta property="twitter:url" content="https://bg.senma.info/">
+    <meta property="twitter:title" content="SenmaInfo - Tech News, Reviews & Analysis">
+    <meta property="twitter:description" content="Your source for latest tech news, in-depth reviews, and expert analysis. Covering AI, hardware, software, and emerging technologies.">
     <meta property="twitter:image" content="/images/og-image.jpg">
 
     <!-- Structured Data -->
@@ -57,56 +53,35 @@
     {
         "@context": "https://schema.org",
         "@type": "Blog",
-        "name": "TechLife Blog",
-        "url": "https://techlife.blog",
-        "description": "Leading technology blog covering AI innovations, VR/AR reviews, hardware comparisons, and emerging tech trends in 2025",
+        "name": "SenmaInfo",
+        "url": "https://bg.senma.info",
+        "description": "Your source for latest tech news, in-depth reviews, and expert analysis covering AI innovations, hardware reviews, software analysis, and emerging technology trends",
         "dateModified": "2025-09-08",
         "author": {
             "@type": "Person",
-            "name": "TechLife Blogger"
+            "name": "SenmaInfo Team"
         },
         "publisher": {
             "@type": "Organization",
-            "name": "TechLife Blog",
+            "name": "SenmaInfo",
             "foundingDate": "2023"
         }
     }
     </script>
 
     <link rel="stylesheet" href="styles.css">
-    <link rel="canonical" href="https://techlife.blog/">
+    <link rel="canonical" href="https://bg.senma.info/">
     
     <!-- Dynamic Content Loader -->
     <script src="content-loader.js" defer></script>
 </head>
 <body>
-    <!-- API Status Indicator (for debugging) -->
-    <div class="api-status" id="apiStatus">Loading content...</div>
-    
-    <!-- Inline Debug Panel (hidden by default) -->
-    <div id="debugPanel" style="position: fixed; top: 50px; right: 10px; width: 300px; background: white; border: 1px solid #ccc; border-radius: 8px; padding: 15px; font-size: 12px; z-index: 1001; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <strong>🔍 Debug Panel</strong>
-            <button onclick="toggleDebugPanel()" style="border: none; background: none; font-size: 16px; cursor: pointer;">✕</button>
-        </div>
-        <button onclick="testSelectorsInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">检查选择器</button>
-        <button onclick="loadContentDebugInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">强制加载内容</button>
-        <button onclick="checkAPIDataInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #ffc107; color: black; border: none; border-radius: 3px; cursor: pointer;">检查API数据</button>
-        <button onclick="compareContentInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #6f42c1; color: white; border: none; border-radius: 3px; cursor: pointer;">对比内容变化</button>
-        <button onclick="debugInnerHTMLInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer;">调试innerHTML操作</button>
-        <button onclick="checkConsoleLogsInline()" style="width: 100%; padding: 5px; margin: 2px 0; background: #17a2b8; color: white; border: none; border-radius: 3px; cursor: pointer;">检查控制台日志</button>
-        <div id="inlineDebugResults" style="margin-top: 10px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 10px;"></div>
-    </div>
-    
-    <!-- Debug Toggle Button -->
-    <button id="debugToggle" onclick="toggleDebugPanel()" style="position: fixed; top: 10px; left: 10px; padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 4px; font-size: 10px; z-index: 1002; cursor: pointer;">DEBUG</button>
-    
     <header>
         <nav class="navbar">
             <div class="nav-container">
                 <div class="logo">
-                    <h1>💻 TechLife Blog</h1>
-                    <p class="tagline">Explore Tech · Share Life</p>
+                    <h1>📡 SenmaInfo</h1>
+                    <p class="tagline">Tech News · Expert Analysis</p>
                 </div>
                 <ul class="nav-menu">
                     <li><a href="#home">Home</a></li>
@@ -130,13 +105,13 @@
 
         <section id="home" class="hero">
             <div class="hero-content">
-                <h2>Welcome to Real Tech Experiences</h2>
-                <p class="hero-subtitle">Honest reviews, hands-on testing, and practical insights from a working developer. No fluff, just real experiences with the tools and hardware I actually use.</p>
+                <h2>Welcome to Expert Tech Coverage</h2>
+                <p class="hero-subtitle">In-depth reviews, breaking news analysis, and expert insights from professional tech journalists. No hype, just thorough coverage of the technologies shaping our world.</p>
                 <div class="author-intro">
                     <div class="author-avatar">👨‍💻</div>
                     <div class="author-info">
-                        <h3>Full-Stack Developer</h3>
-                        <p>7 years building web apps, 3 years testing hardware. I share honest experiences with the tools I actually use in my daily development work.</p>
+                        <h3>Tech Journalist Team</h3>
+                        <p>Professional technology journalists with combined 15+ years covering industry trends, product launches, and market analysis. We provide comprehensive coverage you can trust.</p>
                     </div>
                 </div>
             </div>
@@ -289,12 +264,12 @@
                 </div>
 
                 <div class="widget author-card">
-                    <h3>👨‍💻 About the Author</h3>
+                    <h3>📰 About SenmaInfo</h3>
                     <div class="author-profile">
                         <div class="author-avatar-large">👨‍💻</div>
                         <div class="author-details">
-                            <h4>Full-Stack Developer</h4>
-                            <p>Working developer with 7+ years experience in React, Node.js, and Python. I test hardware and tools extensively before writing about them, sharing only genuine insights from real-world usage.</p>
+                            <h4>Tech News Team</h4>
+                            <p>Professional technology journalists providing comprehensive coverage of industry trends, product reviews, and market analysis. Our team brings years of experience in tech reporting and analysis.</p>
                             <div class="social-links">
                                 <a href="#">GitHub</a>
                                 <a href="#">Twitter</a>
@@ -326,8 +301,8 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>About This Blog</h4>
-                <p>A developer-focused tech blog sharing real experiences with modern development tools, hardware comparisons, and productivity insights. All articles based on hands-on testing and genuine usage over extended periods.</p>
+                <h4>About SenmaInfo</h4>
+                <p>SenmaInfo delivers professional technology journalism covering industry news, product reviews, and market analysis. Our experienced team provides comprehensive coverage of the tech world with expert insights and thorough analysis.</p>
             </div>
             <div class="footer-section">
                 <h4>Latest Articles</h4>
@@ -349,7 +324,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 TechLife Blog. Made with ❤️ for sharing with the 🌍.</p>
+            <p>&copy; 2025 SenmaInfo. Professional Tech Coverage for the Digital Age.</p>
         </div>
     </footer>
     
@@ -366,12 +341,8 @@
                pop_tag.src = cdnUrl;
                pop_tag.async = true;
                
-               pop_tag.onload = function() {
-                   console.log('PopCash loaded successfully from: ' + cdnUrl);
-               };
                
                pop_tag.onerror = function() {
-                   console.warn('PopCash failed to load from: ' + cdnUrl);
                    if (retryCount < maxRetries) {
                        retryCount++;
                        var fallbackUrl = retryCount === 1 ? 
@@ -391,355 +362,6 @@
                loadPopCash('https://cdn.popcash.net/show.js');
            }, 2000);
        })();
-    </script>
-    
-    <!-- Inline Debug Functions -->
-    <script>
-        function toggleDebugPanel() {
-            const panel = document.getElementById('debugPanel');
-            const isVisible = panel.style.display !== 'none';
-            panel.style.display = isVisible ? 'none' : 'block';
-        }
-        
-        function testSelectorsInline() {
-            const results = document.getElementById('inlineDebugResults');
-            const selectors = [
-                '#latest',
-                '#reviews', 
-                '#latest .blog-posts',
-                '#reviews .blog-posts',
-                '.popular-posts',
-                '.blog-post',
-                '.main-content'
-            ];
-            
-            let html = '<strong>选择器测试结果:</strong><br>';
-            selectors.forEach(selector => {
-                const elements = document.querySelectorAll(selector);
-                const exists = elements.length > 0;
-                html += `${selector}: ${exists ? '✅' : '❌'} (${elements.length})<br>`;
-            });
-            
-            // 额外的DOM结构检查
-            const latest = document.getElementById('latest');
-            const reviews = document.getElementById('reviews');
-            
-            html += '<br><strong>DOM结构检查:</strong><br>';
-            html += `#latest 元素: ${latest ? '✅' : '❌'}<br>`;
-            if (latest) {
-                html += `- 子元素数量: ${latest.children.length}<br>`;
-                html += `- 类名: ${latest.className}<br>`;
-                const blogPosts = latest.querySelector('.blog-posts');
-                html += `- .blog-posts: ${blogPosts ? '✅' : '❌'}<br>`;
-            }
-            
-            html += `#reviews 元素: ${reviews ? '✅' : '❌'}<br>`;
-            if (reviews) {
-                html += `- 子元素数量: ${reviews.children.length}<br>`;
-                html += `- 类名: ${reviews.className}<br>`;
-                const blogPosts = reviews.querySelector('.blog-posts');
-                html += `- .blog-posts: ${blogPosts ? '✅' : '❌'}<br>`;
-            }
-            
-            results.innerHTML = html;
-        }
-        
-        async function loadContentDebugInline() {
-            const results = document.getElementById('inlineDebugResults');
-            results.innerHTML = '正在加载内容...<br>';
-            
-            if (window.techContentLoader) {
-                try {
-                    await window.techContentLoader.loadContent();
-                    results.innerHTML += '✅ 内容加载完成!<br>';
-                    
-                    // 再次检查内容是否真的更新了
-                    const latest = document.querySelector('#latest .blog-posts');
-                    const reviews = document.querySelector('#reviews .blog-posts');
-                    
-                    results.innerHTML += `Latest区域内容长度: ${latest ? latest.innerHTML.length : 0}<br>`;
-                    results.innerHTML += `Reviews区域内容长度: ${reviews ? reviews.innerHTML.length : 0}<br>`;
-                } catch (error) {
-                    results.innerHTML += '❌ 加载失败: ' + error.message + '<br>';
-                }
-            } else {
-                results.innerHTML += '❌ techContentLoader未找到<br>';
-            }
-        }
-        
-        async function checkAPIDataInline() {
-            const results = document.getElementById('inlineDebugResults');
-            results.innerHTML = '正在检查API数据...<br>';
-            
-            if (!window.techContentLoader) {
-                results.innerHTML += '❌ techContentLoader未找到<br>';
-                return;
-            }
-            
-            try {
-                // 直接调用API获取方法
-                const content = await window.techContentLoader.fetchTechNews();
-                results.innerHTML += `✅ API数据获取成功<br>`;
-                results.innerHTML += `📊 数据条目: ${content ? content.length : 0}<br>`;
-                
-                if (content && content.length > 0) {
-                    results.innerHTML += '<br><strong>前3条数据预览:</strong><br>';
-                    content.slice(0, 3).forEach((item, index) => {
-                        results.innerHTML += `${index + 1}. ${item.title ? item.title.substring(0, 50) + '...' : '无标题'}<br>`;
-                        results.innerHTML += `   分类: ${item.category || '未知'}<br>`;
-                        results.innerHTML += `   日期: ${item.date || '未知'}<br><br>`;
-                    });
-                    
-                    // 检查缓存状态
-                    const cacheData = window.techContentLoader.cache.data;
-                    results.innerHTML += `💾 缓存状态: ${cacheData ? '有数据 (' + cacheData.length + '条)' : '无缓存'}<br>`;
-                    if (window.techContentLoader.cache.timestamp) {
-                        const cacheAge = Math.floor((Date.now() - window.techContentLoader.cache.timestamp) / 1000 / 60);
-                        results.innerHTML += `⏱️ 缓存年龄: ${cacheAge}分钟<br>`;
-                    }
-                } else {
-                    results.innerHTML += '⚠️ API返回空数据或格式错误<br>';
-                    
-                    // 尝试显示fallback内容
-                    const fallback = window.techContentLoader.fallbackContent;
-                    if (fallback && fallback.length > 0) {
-                        results.innerHTML += `📋 Fallback数据: ${fallback.length}条<br>`;
-                        results.innerHTML += `   示例: ${fallback[0].title.substring(0, 40)}...<br>`;
-                    }
-                }
-            } catch (error) {
-                results.innerHTML += `❌ API调用失败: ${error.message}<br>`;
-            }
-        }
-        
-        function compareContentInline() {
-            const results = document.getElementById('inlineDebugResults');
-            
-            // 记录更新前的内容
-            const latestBefore = document.querySelector('#latest .blog-posts');
-            const reviewsBefore = document.querySelector('#reviews .blog-posts');
-            
-            const latestContentBefore = latestBefore ? latestBefore.innerHTML : '';
-            const reviewsContentBefore = reviewsBefore ? reviewsBefore.innerHTML : '';
-            
-            results.innerHTML = `<strong>更新前内容长度:</strong><br>`;
-            results.innerHTML += `Latest: ${latestContentBefore.length} 字符<br>`;
-            results.innerHTML += `Reviews: ${reviewsContentBefore.length} 字符<br><br>`;
-            
-            // 执行内容加载
-            results.innerHTML += '正在更新内容...<br>';
-            
-            if (window.techContentLoader) {
-                window.techContentLoader.loadContent().then(() => {
-                    // 检查更新后的内容
-                    const latestAfter = document.querySelector('#latest .blog-posts');
-                    const reviewsAfter = document.querySelector('#reviews .blog-posts');
-                    
-                    const latestContentAfter = latestAfter ? latestAfter.innerHTML : '';
-                    const reviewsContentAfter = reviewsAfter ? reviewsAfter.innerHTML : '';
-                    
-                    results.innerHTML += `<br><strong>更新后内容长度:</strong><br>`;
-                    results.innerHTML += `Latest: ${latestContentAfter.length} 字符<br>`;
-                    results.innerHTML += `Reviews: ${reviewsContentAfter.length} 字符<br><br>`;
-                    
-                    // 检查是否有变化
-                    const latestChanged = latestContentBefore !== latestContentAfter;
-                    const reviewsChanged = reviewsContentBefore !== reviewsContentAfter;
-                    
-                    results.innerHTML += `<strong>变化检测:</strong><br>`;
-                    results.innerHTML += `Latest: ${latestChanged ? '✅ 有变化' : '❌ 无变化'}<br>`;
-                    results.innerHTML += `Reviews: ${reviewsChanged ? '✅ 有变化' : '❌ 无变化'}<br>`;
-                    
-                    if (!latestChanged && !reviewsChanged) {
-                        results.innerHTML += '<br>⚠️ 内容未更新可能原因:<br>';
-                        results.innerHTML += '1. API返回空数据<br>';
-                        results.innerHTML += '2. 内容渲染逻辑错误<br>';
-                        results.innerHTML += '3. 数据格式不匹配<br>';
-                    }
-                }).catch(error => {
-                    results.innerHTML += `❌ 更新失败: ${error.message}<br>`;
-                });
-            } else {
-                results.innerHTML += '❌ techContentLoader未找到<br>';
-            }
-        }
-        
-        async function debugInnerHTMLInline() {
-            const results = document.getElementById('inlineDebugResults');
-            results.innerHTML = '🔍 开始innerHTML操作调试...<br>';
-            
-            if (!window.techContentLoader) {
-                results.innerHTML += '❌ techContentLoader未找到<br>';
-                return;
-            }
-            
-            try {
-                // 获取数据
-                const content = await window.techContentLoader.fetchTechNews();
-                results.innerHTML += `✅ 获得${content.length}条数据<br>`;
-                
-                // 手动执行选择器查找和innerHTML更新
-                const latestSection = document.querySelector('#latest .blog-posts');
-                const reviewsSection = document.querySelector('#reviews .blog-posts');
-                
-                results.innerHTML += `📍 Latest选择器: ${latestSection ? '找到' : '未找到'}<br>`;
-                results.innerHTML += `📍 Reviews选择器: ${reviewsSection ? '找到' : '未找到'}<br>`;
-                
-                if (latestSection && content.length > 0) {
-                    // 记录原始内容长度
-                    const originalLength = latestSection.innerHTML.length;
-                    results.innerHTML += `📏 Latest原始长度: ${originalLength}<br>`;
-                    
-                    // 生成新内容HTML
-                    const newHTML = content.slice(0, 3).map(article => 
-                        `<article class="blog-post">
-                            <div class="post-meta">
-                                <span class="post-date">${article.date}</span>
-                                <span class="post-category">${article.category}</span>
-                            </div>
-                            <h3><a href="article.html">${article.title}</a></h3>
-                            <p class="post-excerpt">${article.description}</p>
-                            <div class="post-footer">
-                                <span class="read-time">${article.readTime}</span>
-                                <a href="article.html" class="read-more">Continue Reading →</a>
-                            </div>
-                        </article>`
-                    ).join('');
-                    
-                    results.innerHTML += `📝 新HTML长度: ${newHTML.length}<br>`;
-                    results.innerHTML += `🔧 开始innerHTML替换...<br>`;
-                    
-                    // 执行innerHTML更新
-                    latestSection.innerHTML = newHTML;
-                    
-                    // 立即检查更新结果
-                    const updatedLength = latestSection.innerHTML.length;
-                    results.innerHTML += `📏 更新后长度: ${updatedLength}<br>`;
-                    
-                    const success = updatedLength !== originalLength;
-                    results.innerHTML += `✅ 更新${success ? '成功' : '失败'}<br>`;
-                    
-                    if (!success) {
-                        results.innerHTML += '🚨 innerHTML更新被阻止或覆盖!<br>';
-                        
-                        // 尝试直接设置文本内容
-                        latestSection.textContent = '测试内容替换';
-                        setTimeout(() => {
-                            const testLength = latestSection.innerHTML.length;
-                            results.innerHTML += `🧪 textContent测试长度: ${testLength}<br>`;
-                            if (testLength === originalLength) {
-                                results.innerHTML += '❌ DOM操作完全被阻止<br>';
-                            } else {
-                                results.innerHTML += '⚠️ innerHTML被覆盖但DOM可操作<br>';
-                            }
-                        }, 100);
-                    } else {
-                        results.innerHTML += `📄 新内容预览: ${newHTML.substring(0, 100)}...<br>`;
-                    }
-                }
-                
-                // 对Reviews区域做同样测试
-                if (reviewsSection && content.length > 3) {
-                    results.innerHTML += '<br>🔍 测试Reviews区域...<br>';
-                    const originalLength = reviewsSection.innerHTML.length;
-                    
-                    const newHTML = content.slice(3, 6).map(article => 
-                        `<article class="blog-post">
-                            <h3><a href="article.html">${article.title}</a></h3>
-                            <p class="post-excerpt">${article.description}</p>
-                        </article>`
-                    ).join('');
-                    
-                    reviewsSection.innerHTML = newHTML;
-                    const updatedLength = reviewsSection.innerHTML.length;
-                    
-                    results.innerHTML += `Reviews: ${originalLength} → ${updatedLength} (${updatedLength !== originalLength ? '成功' : '失败'})<br>`;
-                }
-                
-            } catch (error) {
-                results.innerHTML += `❌ 调试失败: ${error.message}<br>`;
-            }
-        }
-        
-        function checkConsoleLogsInline() {
-            const results = document.getElementById('inlineDebugResults');
-            results.innerHTML = '📋 控制台日志检查...<br>';
-            
-            if (!window.techContentLoader) {
-                results.innerHTML += '❌ techContentLoader未找到<br>';
-                return;
-            }
-            
-            // 检查自动加载是否真的执行了
-            results.innerHTML += '<strong>🔍 手动触发自动加载流程:</strong><br>';
-            
-            // 重写console.log来捕获日志
-            const originalLog = console.log;
-            const originalError = console.error;
-            const capturedLogs = [];
-            
-            console.log = function(...args) {
-                capturedLogs.push({ type: 'log', message: args.join(' ') });
-                originalLog.apply(console, args);
-            };
-            
-            console.error = function(...args) {
-                capturedLogs.push({ type: 'error', message: args.join(' ') });
-                originalError.apply(console, args);
-            };
-            
-            // 手动触发loadContent
-            window.techContentLoader.loadContent().then(() => {
-                // 恢复console函数
-                console.log = originalLog;
-                console.error = originalError;
-                
-                results.innerHTML += '<br><strong>📝 捕获的日志:</strong><br>';
-                if (capturedLogs.length === 0) {
-                    results.innerHTML += '⚠️ 没有捕获到任何日志!<br>';
-                    results.innerHTML += '这说明loadContent方法可能没有执行console.log<br>';
-                } else {
-                    capturedLogs.forEach(log => {
-                        const color = log.type === 'error' ? 'red' : 'green';
-                        results.innerHTML += `<span style="color: ${color}">[${log.type.toUpperCase()}] ${log.message}</span><br>`;
-                    });
-                }
-                
-                // 检查方法执行结果
-                results.innerHTML += '<br><strong>🔧 执行后状态检查:</strong><br>';
-                
-                const latestSection = document.querySelector('#latest .blog-posts');
-                const reviewsSection = document.querySelector('#reviews .blog-posts');
-                
-                if (latestSection) {
-                    const hasNewContent = latestSection.innerHTML.includes('Open Source') || 
-                                         latestSection.innerHTML.includes('Essential Dev') ||
-                                         latestSection.innerHTML.includes('Today');
-                    results.innerHTML += `Latest区域: ${hasNewContent ? '✅ 包含新内容' : '❌ 仍是旧内容'}<br>`;
-                }
-                
-                if (reviewsSection) {
-                    const hasNewContent = reviewsSection.innerHTML.includes('Open Source') || 
-                                         reviewsSection.innerHTML.includes('Essential Dev') ||
-                                         reviewsSection.innerHTML.includes('Today');
-                    results.innerHTML += `Reviews区域: ${hasNewContent ? '✅ 包含新内容' : '❌ 仍是旧内容'}<br>`;
-                }
-                
-            }).catch(error => {
-                console.log = originalLog;
-                console.error = originalError;
-                results.innerHTML += `❌ 执行失败: ${error.message}<br>`;
-            });
-        }
-        
-        // 页面完全加载后自动运行一次测试
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (document.getElementById('debugPanel').style.display !== 'none') {
-                    testSelectorsInline();
-                }
-            }, 3000);
-        });
     </script>
 </body>
 </html>

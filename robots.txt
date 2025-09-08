@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://techinfo.com/sitemap.xml
+Sitemap: https://bg.senma.info/sitemap.xml
 
 # 禁止抓取广告相关目录（如果有的话）
 Disallow: /ads/
