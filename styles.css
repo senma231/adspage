@@ -776,8 +776,8 @@ a:focus, button:focus {
 
 .tool-output {
     display: flex;
+    flex-direction: column;
     gap: 8px;
-    align-items: stretch;
 }
 
 .tool-output textarea {
@@ -803,6 +803,7 @@ a:focus, button:focus {
     font-size: 0.75em;
     transition: background 0.2s ease;
     white-space: nowrap;
+    align-self: flex-start;
 }
 
 .copy-btn:hover {
@@ -844,12 +845,9 @@ a:focus, button:focus {
 }
 
 .json-output .copy-btn, .base64-output .copy-btn {
-    position: absolute;
-    top: 20px;
-    right: 8px;
-    padding: 4px 8px;
-    font-size: 0.7em;
-    z-index: 2;
+    position: static;
+    margin-top: 4px;
+    align-self: flex-start;
 }
 
 .tool-status {
@@ -874,12 +872,11 @@ a:focus, button:focus {
 
 .timestamp-container {
     display: flex;
+    flex-direction: column;
     gap: 12px;
-    align-items: end;
 }
 
 .timestamp-input, .timestamp-output {
-    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -898,11 +895,9 @@ a:focus, button:focus {
 }
 
 .timestamp-output .copy-btn {
-    position: absolute;
-    right: 8px;
-    top: 20px;
-    padding: 4px 8px;
-    font-size: 0.7em;
+    position: static;
+    margin-top: 4px;
+    align-self: flex-start;
 }
 
 #uuidVersion {
