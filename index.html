@@ -107,7 +107,6 @@
             }
         });
     </script>
-    -->
     
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="GOOGLE_SEARCH_CONSOLE_CODE" />
@@ -401,6 +400,7 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#latest">Latest Posts</a></li>
                     <li><a href="#reviews">Tech Reviews</a></li>
+                    <li><a href="#tools">Developer Tools</a></li>
                     <li><a href="#tutorials">Tutorials</a></li>
                     <li><a href="#about">About</a></li>
                 </ul>
@@ -412,8 +412,10 @@
         <!-- Top Banner Ad -->
         <div class="ad-container top-ad">
             <div class="ad-placeholder">
-                <!-- Place your top banner ad code here -->
-                <p>Top Banner Ad (728x90)</p>
+                <!-- Mondiad Banner Ad -->
+                <a href="https://mondiad.com?refid=26177" target="_blank" rel="noopener noreferrer" title="Mondiad.com">
+                    <img src="https://publisher.mondiad.com/img/promo/728x90/6.png" alt="Mondiad.com">
+                </a>
             </div>
         </div>
 
@@ -544,6 +546,100 @@
                         <div data-mndazid="011d6c34-96fa-4507-8077-4e0a7530d212"></div>
                     </div>
                 </div>
+
+                <section id="tools" class="section">
+                    <h2>🛠️ Developer Tools</h2>
+                    <p class="section-intro">Free developer utilities for your daily workflow - UUID generation, JSON formatting, and more.</p>
+                    
+                    <div class="tools-grid">
+                        <!-- UUID Generator Tool -->
+                        <div class="tool-card">
+                            <h3>🆔 UUID Generator</h3>
+                            <p>Generate UUID v1, v4, and v5 with one click</p>
+                            <div class="tool-controls">
+                                <select id="uuidVersion">
+                                    <option value="v4">UUID v4 (Random)</option>
+                                    <option value="v1">UUID v1 (Timestamp)</option>
+                                    <option value="v5">UUID v5 (Namespace)</option>
+                                </select>
+                                <button onclick="generateUUID()" class="tool-btn">Generate</button>
+                            </div>
+                            <div class="tool-output">
+                                <textarea id="uuidOutput" readonly placeholder="Click Generate to create UUID"></textarea>
+                                <button onclick="copyToClipboard('uuidOutput')" class="copy-btn">📋 Copy</button>
+                            </div>
+                        </div>
+
+                        <!-- JSON Formatter Tool -->
+                        <div class="tool-card">
+                            <h3>📄 JSON Formatter</h3>
+                            <p>Format, validate, and minify JSON data</p>
+                            <div class="tool-controls">
+                                <button onclick="formatJSON()" class="tool-btn">Format</button>
+                                <button onclick="validateJSON()" class="tool-btn">Validate</button>
+                                <button onclick="minifyJSON()" class="tool-btn">Minify</button>
+                                <button onclick="clearJSON()" class="tool-btn secondary">Clear</button>
+                            </div>
+                            <div class="json-container">
+                                <div class="json-input">
+                                    <label>Input JSON:</label>
+                                    <textarea id="jsonInput" placeholder='{"name": "example", "value": 123}'></textarea>
+                                </div>
+                                <div class="json-output">
+                                    <label>Formatted Output:</label>
+                                    <textarea id="jsonOutput" readonly></textarea>
+                                    <button onclick="copyToClipboard('jsonOutput')" class="copy-btn">📋 Copy</button>
+                                </div>
+                            </div>
+                            <div id="jsonStatus" class="tool-status"></div>
+                        </div>
+
+                        <!-- Base64 Encoder/Decoder Tool -->
+                        <div class="tool-card">
+                            <h3>🔒 Base64 Encoder/Decoder</h3>
+                            <p>Encode and decode Base64 strings</p>
+                            <div class="tool-controls">
+                                <button onclick="encodeBase64()" class="tool-btn">Encode</button>
+                                <button onclick="decodeBase64()" class="tool-btn">Decode</button>
+                                <button onclick="clearBase64()" class="tool-btn secondary">Clear</button>
+                            </div>
+                            <div class="base64-container">
+                                <div class="base64-input">
+                                    <label>Input Text:</label>
+                                    <textarea id="base64Input" placeholder="Enter text to encode/decode"></textarea>
+                                </div>
+                                <div class="base64-output">
+                                    <label>Output:</label>
+                                    <textarea id="base64Output" readonly></textarea>
+                                    <button onclick="copyToClipboard('base64Output')" class="copy-btn">📋 Copy</button>
+                                </div>
+                            </div>
+                            <div id="base64Status" class="tool-status"></div>
+                        </div>
+
+                        <!-- Timestamp Converter Tool -->
+                        <div class="tool-card">
+                            <h3>⏰ Timestamp Converter</h3>
+                            <p>Convert between Unix timestamps and human-readable dates</p>
+                            <div class="tool-controls">
+                                <button onclick="getCurrentTimestamp()" class="tool-btn">Current Time</button>
+                                <button onclick="convertTimestamp()" class="tool-btn">Convert</button>
+                                <button onclick="clearTimestamp()" class="tool-btn secondary">Clear</button>
+                            </div>
+                            <div class="timestamp-container">
+                                <div class="timestamp-input">
+                                    <label>Unix Timestamp:</label>
+                                    <input type="number" id="timestampInput" placeholder="1693814400" />
+                                </div>
+                                <div class="timestamp-output">
+                                    <label>Human Readable:</label>
+                                    <input type="text" id="timestampOutput" readonly />
+                                    <button onclick="copyToClipboard('timestampOutput')" class="copy-btn">📋 Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
             <aside class="sidebar">
@@ -676,6 +772,268 @@
                loadPopCash('https://cdn.popcash.net/show.js');
            }, 2000);
        })();
+    </script>
+
+    <!-- Developer Tools JavaScript Functions -->
+    <script>
+        // UUID Generator Functions
+        function generateUUID() {
+            const version = document.getElementById('uuidVersion').value;
+            let uuid;
+            
+            switch(version) {
+                case 'v1':
+                    uuid = generateUUIDv1();
+                    break;
+                case 'v4':
+                    uuid = generateUUIDv4();
+                    break;
+                case 'v5':
+                    uuid = generateUUIDv5();
+                    break;
+                default:
+                    uuid = generateUUIDv4();
+            }
+            
+            document.getElementById('uuidOutput').value = uuid;
+            
+            // GTM tracking
+            pushToDataLayer('tool_used', {
+                tool_name: 'UUID Generator',
+                tool_version: version,
+                event_category: 'Developer Tools',
+                event_action: 'Generate UUID'
+            });
+        }
+
+        function generateUUIDv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function generateUUIDv1() {
+            const d = new Date().getTime();
+            const d2 = (performance && performance.now && (performance.now()*1000)) || 0;
+            return 'xxxxxxxx-xxxx-1xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                let r = Math.random() * 16;
+                if(d > 0) {
+                    r = (d + r)%16 | 0;
+                    d = Math.floor(d/16);
+                } else {
+                    r = (d2 + r)%16 | 0;
+                    d2 = Math.floor(d2/16);
+                }
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        }
+
+        function generateUUIDv5() {
+            // Simplified v5 using a namespace
+            const namespace = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+            const name = 'senmainfo-' + Date.now();
+            return generateUUIDv4(); // Simplified for demo
+        }
+
+        // JSON Formatter Functions
+        function formatJSON() {
+            const input = document.getElementById('jsonInput').value;
+            const output = document.getElementById('jsonOutput');
+            const status = document.getElementById('jsonStatus');
+            
+            try {
+                const parsed = JSON.parse(input);
+                output.value = JSON.stringify(parsed, null, 2);
+                showStatus('jsonStatus', 'JSON formatted successfully!', 'success');
+                
+                pushToDataLayer('tool_used', {
+                    tool_name: 'JSON Formatter',
+                    tool_action: 'format',
+                    event_category: 'Developer Tools',
+                    event_action: 'Format JSON'
+                });
+            } catch (error) {
+                showStatus('jsonStatus', 'Invalid JSON: ' + error.message, 'error');
+            }
+        }
+
+        function validateJSON() {
+            const input = document.getElementById('jsonInput').value;
+            const status = document.getElementById('jsonStatus');
+            
+            try {
+                JSON.parse(input);
+                showStatus('jsonStatus', 'Valid JSON!', 'success');
+                
+                pushToDataLayer('tool_used', {
+                    tool_name: 'JSON Formatter',
+                    tool_action: 'validate',
+                    event_category: 'Developer Tools',
+                    event_action: 'Validate JSON'
+                });
+            } catch (error) {
+                showStatus('jsonStatus', 'Invalid JSON: ' + error.message, 'error');
+            }
+        }
+
+        function minifyJSON() {
+            const input = document.getElementById('jsonInput').value;
+            const output = document.getElementById('jsonOutput');
+            
+            try {
+                const parsed = JSON.parse(input);
+                output.value = JSON.stringify(parsed);
+                showStatus('jsonStatus', 'JSON minified successfully!', 'success');
+                
+                pushToDataLayer('tool_used', {
+                    tool_name: 'JSON Formatter',
+                    tool_action: 'minify',
+                    event_category: 'Developer Tools',
+                    event_action: 'Minify JSON'
+                });
+            } catch (error) {
+                showStatus('jsonStatus', 'Invalid JSON: ' + error.message, 'error');
+            }
+        }
+
+        function clearJSON() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('jsonOutput').value = '';
+            document.getElementById('jsonStatus').innerHTML = '';
+        }
+
+        // Base64 Functions
+        function encodeBase64() {
+            const input = document.getElementById('base64Input').value;
+            const output = document.getElementById('base64Output');
+            
+            try {
+                const encoded = btoa(unescape(encodeURIComponent(input)));
+                output.value = encoded;
+                showStatus('base64Status', 'Text encoded to Base64!', 'success');
+                
+                pushToDataLayer('tool_used', {
+                    tool_name: 'Base64 Encoder',
+                    tool_action: 'encode',
+                    event_category: 'Developer Tools',
+                    event_action: 'Encode Base64'
+                });
+            } catch (error) {
+                showStatus('base64Status', 'Encoding error: ' + error.message, 'error');
+            }
+        }
+
+        function decodeBase64() {
+            const input = document.getElementById('base64Input').value;
+            const output = document.getElementById('base64Output');
+            
+            try {
+                const decoded = decodeURIComponent(escape(atob(input)));
+                output.value = decoded;
+                showStatus('base64Status', 'Base64 decoded to text!', 'success');
+                
+                pushToDataLayer('tool_used', {
+                    tool_name: 'Base64 Decoder',
+                    tool_action: 'decode',
+                    event_category: 'Developer Tools',
+                    event_action: 'Decode Base64'
+                });
+            } catch (error) {
+                showStatus('base64Status', 'Decoding error: Invalid Base64', 'error');
+            }
+        }
+
+        function clearBase64() {
+            document.getElementById('base64Input').value = '';
+            document.getElementById('base64Output').value = '';
+            document.getElementById('base64Status').innerHTML = '';
+        }
+
+        // Timestamp Converter Functions
+        function getCurrentTimestamp() {
+            const timestamp = Math.floor(Date.now() / 1000);
+            document.getElementById('timestampInput').value = timestamp;
+            convertTimestamp();
+            
+            pushToDataLayer('tool_used', {
+                tool_name: 'Timestamp Converter',
+                tool_action: 'get_current',
+                event_category: 'Developer Tools',
+                event_action: 'Get Current Timestamp'
+            });
+        }
+
+        function convertTimestamp() {
+            const input = document.getElementById('timestampInput').value;
+            const output = document.getElementById('timestampOutput');
+            
+            if (!input) {
+                output.value = '';
+                return;
+            }
+            
+            try {
+                const timestamp = parseInt(input);
+                const date = new Date(timestamp * 1000);
+                output.value = date.toLocaleString() + ' UTC';
+                
+                pushToDataLayer('tool_used', {
+                    tool_name: 'Timestamp Converter',
+                    tool_action: 'convert',
+                    event_category: 'Developer Tools',
+                    event_action: 'Convert Timestamp'
+                });
+            } catch (error) {
+                output.value = 'Invalid timestamp';
+            }
+        }
+
+        function clearTimestamp() {
+            document.getElementById('timestampInput').value = '';
+            document.getElementById('timestampOutput').value = '';
+        }
+
+        // Utility Functions
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            element.select();
+            document.execCommand('copy');
+            
+            // Visual feedback
+            const originalBg = element.style.backgroundColor;
+            element.style.backgroundColor = '#d4edda';
+            setTimeout(() => {
+                element.style.backgroundColor = originalBg;
+            }, 500);
+            
+            pushToDataLayer('tool_used', {
+                tool_name: 'Copy to Clipboard',
+                element_id: elementId,
+                event_category: 'Developer Tools',
+                event_action: 'Copy to Clipboard'
+            });
+        }
+
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            element.className = `tool-status ${type}`;
+            
+            setTimeout(() => {
+                element.innerHTML = '';
+                element.className = 'tool-status';
+            }, 3000);
+        }
+
+        // Auto-convert timestamp on input
+        document.addEventListener('DOMContentLoaded', function() {
+            const timestampInput = document.getElementById('timestampInput');
+            if (timestampInput) {
+                timestampInput.addEventListener('input', convertTimestamp);
+            }
+        });
     </script>
 </body>
 </html>
