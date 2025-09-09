@@ -691,9 +691,14 @@
 
                 <!-- Bottom Sidebar Ad -->
                 <div class="ad-container sidebar-ad-bottom">
-                    <div class="ad-placeholder">
-                        <!-- Place your bottom sidebar ad code here -->
-                        <p>Sidebar Ad (300x600)</p>
+                    <div class="ad-placeholder roxy-browser-ad">
+                        <!-- Roxy Browser 160x600 Ad -->
+                        <a href="https://roxybrowser.com?code=0612Q9YA" target="_blank">
+                            <img src="https://roxybrowser.com/banner_picture_new/link_c/zh/160_660_1x.png" 
+                                 alt="Roxy Browser" 
+                                 srcset="https://roxybrowser.com/banner_picture_new/link_c/zh/160_660_1x.png 1x, https://roxybrowser.com/banner_picture_new/link_c/zh/160_660_2x.png 2x"
+                                 class="roxy-ad-img">
+                        </a>
                     </div>
                 </div>
             </aside>
@@ -746,11 +751,19 @@
            var retryCount = 0;
            var maxRetries = 2;
            
+           // PopCash configuration
+           window.pop_up = window.pop_up || {
+               config: {
+                   type: 'popunder',
+                   uid: uid,
+                   wid: wid
+               }
+           };
+           
            function loadPopCash(cdnUrl) {
                var pop_tag = document.createElement('script');
                pop_tag.src = cdnUrl;
                pop_tag.async = true;
-               
                
                pop_tag.onerror = function() {
                    if (retryCount < maxRetries) {
