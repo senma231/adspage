@@ -703,185 +703,194 @@ a:focus, button:focus {
 /* Developer Tools Section Styles */
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
 }
 
 .tool-card {
     background: #ffffff;
-    border: 1px solid #e9ecef;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease;
+    position: relative;
 }
 
 .tool-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     border-color: #667eea;
 }
 
 .tool-card h3 {
-    color: #2c3e50;
-    margin: 0 0 10px 0;
-    font-size: 1.4em;
+    color: #1a202c;
+    margin: 0 0 8px 0;
+    font-size: 1.1em;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .tool-card p {
-    color: #666;
-    margin: 0 0 20px 0;
-    font-size: 0.95em;
+    color: #718096;
+    margin: 0 0 16px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
 }
 
 .tool-controls {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 16px;
     flex-wrap: wrap;
 }
 
 .tool-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #667eea;
     color: white;
     border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
+    padding: 8px 14px;
+    border-radius: 6px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9em;
+    transition: all 0.2s ease;
+    font-size: 0.85em;
+    min-width: 70px;
 }
 
 .tool-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    background: #5a6fd8;
+    transform: translateY(-1px);
 }
 
 .tool-btn.secondary {
-    background: #6c757d;
+    background: #a0aec0;
 }
 
 .tool-btn.secondary:hover {
-    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
-}
-
-.tool-output, .json-container, .base64-container, .timestamp-container {
-    margin-top: 15px;
+    background: #8b9bb3;
 }
 
 .tool-output {
     display: flex;
-    gap: 10px;
-    align-items: flex-end;
+    gap: 8px;
+    align-items: stretch;
 }
 
 .tool-output textarea {
     flex: 1;
-    min-height: 60px;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.9em;
+    min-height: 50px;
+    max-height: 80px;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.8em;
     resize: vertical;
+    background: #f8fafc;
 }
 
 .copy-btn {
-    background: #28a745;
+    background: #48bb78;
     color: white;
     border: none;
-    padding: 10px 12px;
+    padding: 8px 12px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.85em;
-    transition: background 0.3s ease;
+    font-size: 0.75em;
+    transition: background 0.2s ease;
+    white-space: nowrap;
 }
 
 .copy-btn:hover {
-    background: #218838;
+    background: #38a169;
 }
 
 .json-container, .base64-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .json-input, .json-output, .base64-input, .base64-output {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .json-input label, .json-output label, .base64-input label, .base64-output label {
     font-weight: 500;
-    color: #495057;
-    font-size: 0.9em;
+    color: #4a5568;
+    font-size: 0.85em;
 }
 
 .json-input textarea, .json-output textarea, .base64-input textarea, .base64-output textarea {
-    min-height: 120px;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.85em;
+    min-height: 100px;
+    max-height: 120px;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.8em;
     resize: vertical;
+    background: #f8fafc;
 }
 
-.json-output {
+.json-output, .base64-output {
     position: relative;
 }
 
 .json-output .copy-btn, .base64-output .copy-btn {
     position: absolute;
-    top: 25px;
-    right: 10px;
-    padding: 6px 10px;
-    font-size: 0.75em;
+    top: 20px;
+    right: 8px;
+    padding: 4px 8px;
+    font-size: 0.7em;
+    z-index: 2;
 }
 
 .tool-status {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 0.85em;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.8em;
     font-weight: 500;
 }
 
 .tool-status.success {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+    background: #f0fff4;
+    color: #276749;
+    border: 1px solid #9ae6b4;
 }
 
 .tool-status.error {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    background: #fed7d7;
+    color: #c53030;
+    border: 1px solid #feb2b2;
 }
 
 .timestamp-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    display: flex;
+    gap: 12px;
     align-items: end;
 }
 
 .timestamp-input, .timestamp-output {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .timestamp-input input, .timestamp-output input {
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 8px 10px;
+    border: 1px solid #e2e8f0;
     border-radius: 6px;
-    font-size: 0.9em;
+    font-size: 0.85em;
+    background: #f8fafc;
 }
 
 .timestamp-output {
@@ -890,55 +899,89 @@ a:focus, button:focus {
 
 .timestamp-output .copy-btn {
     position: absolute;
-    right: 10px;
-    top: 25px;
-    padding: 6px 10px;
-    font-size: 0.75em;
+    right: 8px;
+    top: 20px;
+    padding: 4px 8px;
+    font-size: 0.7em;
 }
 
 #uuidVersion {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
+    padding: 8px 10px;
+    border: 1px solid #e2e8f0;
     border-radius: 6px;
     background: white;
     cursor: pointer;
+    font-size: 0.85em;
+    min-width: 140px;
 }
 
 .section-intro {
-    color: #666;
-    font-size: 1.1em;
-    margin-bottom: 10px;
+    color: #718096;
+    font-size: 1.05em;
+    margin-bottom: 8px;
     text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Mobile Responsive Styles for Tools */
 @media (max-width: 768px) {
     .tools-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 16px;
     }
     
     .tool-card {
-        padding: 20px;
-    }
-    
-    .json-container, .base64-container, .timestamp-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
+        padding: 16px;
+        margin: 0 5px;
     }
     
     .tool-controls {
-        justify-content: center;
+        justify-content: flex-start;
+        gap: 6px;
+    }
+    
+    .tool-btn {
+        padding: 7px 12px;
+        font-size: 0.8em;
     }
     
     .tool-output {
         flex-direction: column;
+        gap: 8px;
+    }
+    
+    .json-container, .base64-container {
         gap: 10px;
+    }
+    
+    .timestamp-container {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
     }
     
     .json-output .copy-btn, .base64-output .copy-btn, .timestamp-output .copy-btn {
         position: static;
         align-self: flex-start;
-        margin-top: 5px;
+        margin-top: 4px;
+    }
+    
+    .json-input textarea, .json-output textarea, .base64-input textarea, .base64-output textarea {
+        min-height: 80px;
+        max-height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tool-card {
+        padding: 12px;
+        margin: 0;
+    }
+    
+    .section-intro {
+        font-size: 1em;
+        padding: 0 10px;
     }
 }
